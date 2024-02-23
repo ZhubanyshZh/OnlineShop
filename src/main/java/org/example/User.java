@@ -5,15 +5,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class User {
+    private int id = 1;
     private String name;
     private String address;
     private String phone_num;
     private Bucket bucket;
     public User(String name, String address, String phone_num){
+        this.id++;
         this.name = name;
         this.address = address;
         this.phone_num = phone_num;
         this.bucket = new Bucket();
+    }
+
+    public User() {
+        this.id++;
+        this.name = "Undefined";
+        this.phone_num = "Undefined";
+        this.bucket = null;
     }
 
     public String getName() {
