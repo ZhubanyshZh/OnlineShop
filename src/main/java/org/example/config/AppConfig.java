@@ -57,4 +57,24 @@ public class AppConfig {
         String formattedDateTime = currentDateTime.format(formatter);
         return new Order(formattedDateTime, new ArrayList<Product>());
     }
+
+    @Bean("Car")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Car getCar(){
+        return new Car();
+    }
+
+    @Bean("Air")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Air getAir(){
+        return new Air();
+    }
+
+    @Bean("Train")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Train getTrain(){
+        return new Train();
+    }
+
+
 }
