@@ -1,4 +1,6 @@
-package org.example;
+package org.example.domain.model;
+
+import org.example.domain.model.abst.Product;
 
 import java.util.ArrayList;
 

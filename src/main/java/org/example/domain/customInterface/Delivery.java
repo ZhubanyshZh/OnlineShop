@@ -1,4 +1,4 @@
-package org.example;
+package org.example.domain.customInterface;
 
 public interface Delivery {
     int getDeliveryCost(String B);

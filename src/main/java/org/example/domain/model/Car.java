@@ -1,6 +1,8 @@
-package org.example;
+package org.example.domain.model;
 
-public class Car implements Delivery{
+import org.example.domain.customInterface.Delivery;
+
+public class Car implements Delivery {
     @Override
     public int getDeliveryCost(String B) {
         switch (B){

@@ -1,4 +1,7 @@
-package org.example;
+package org.example.domain.model.abst;
+
+import org.example.domain.customInterface.Reviewable;
+import org.example.domain.model.Feedback;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,17 @@ public abstract class Product implements Reviewable, Cloneable{
         this.price = price;
         this.amount = amount;
         this.size = size;
+        this.feedbacks = new ArrayList<Feedback>();
+    }
+
+    public Product() {
+        this.id = counter++;
+        this.name = "name";
+        this.category_id = 0;
+        this.brand = "brand";
+        this.price = 0;
+        this.amount = 0;
+        this.size = "size";
         this.feedbacks = new ArrayList<Feedback>();
     }
 

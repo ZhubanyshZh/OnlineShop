@@ -1,4 +1,6 @@
-package org.example;
+package org.example.domain.model;
+
+import org.example.domain.model.abst.Product;
 
 import java.util.ArrayList;
 
@@ -24,5 +26,18 @@ public class Shop {
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    public ArrayList<User> getUsersList() {
+        return usersList;
+    }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "name='" + name + '\'' +
+                ", products=" + products +
+                ", usersList=" + usersList +
+                '}';
     }
 }

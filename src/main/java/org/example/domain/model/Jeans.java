@@ -1,13 +1,14 @@
-package org.example;
+package org.example.domain.model;
 
-public class Shoes extends Product implements Cloneable{
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return (Shoes)super.clone();
+import org.example.domain.model.abst.Product;
+
+public class Jeans extends Product implements Cloneable{
+    public Jeans(String name, int cat, String brand, int price, int amount, String size){
+        super(name, cat, brand, price, amount, size);
     }
 
-    public Shoes(String name, int cat, String brand, int price, int amount, String size){
-        super(name, cat, brand, price, amount, size);
+    public Jeans() {
+        super();
     }
 
     @Override
@@ -23,6 +24,11 @@ public class Shoes extends Product implements Cloneable{
             System.out.println("There doesn't have any feedbacks");
             return;
         }
-        System.out.println("This Shoes has " + NumberOfFeedbacks + " feedbacks");
+        System.out.println("This Jeans has " + NumberOfFeedbacks + " feedbacks");
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

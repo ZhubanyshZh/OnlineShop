@@ -1,13 +1,15 @@
-package org.example;
+package org.example.domain.model;
 
-public class Train implements Delivery {
+import org.example.domain.customInterface.Delivery;
+
+public class Air implements Delivery {
     @Override
     public int getDeliveryCost(String B) {
         switch (B){
             case "Shymkent", "Taraz", "Semey", "Qaragandy", "Astana", "Turkistan":
-                return 1000;
+                return 3000;
             case "Aqtobe", "Oral", "Aqtau", "Atyrau", "Pavlodar", "Petropavl", "Qostanai":
-                return 2000;
+                return 5000;
             default:
                 return 0;
         }
@@ -17,9 +19,9 @@ public class Train implements Delivery {
     public String getDeliveryDate(String B) {
         switch (B){
             case "Shymkent", "Taraz", "Semey", "Qaragandy", "Astana", "Turkistan":
-                return "Pending 1-1.5 day";
+                return "Pending 5 hours";
             case "Aqtobe", "Oral", "Aqtau", "Atyrau", "Pavlodar", "Petropavl", "Qostanai":
-                return "Pending 3 day";
+                return "Pending 7 hours";
             default:
                 return null;
         }

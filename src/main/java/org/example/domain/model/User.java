@@ -1,27 +1,40 @@
-package org.example;
+package org.example.domain.model;
+
+import org.example.domain.model.abst.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class User {
-    private int id = 1;
+    private static int counter = 1;
+    private int id;
     private String name;
-    private String address;
     private String phone_num;
+    private String birthday;
+    private String address;
+    private String email;
+    private String password;
     private Bucket bucket;
-    public User(String name, String address, String phone_num){
-        this.id++;
+    public User(String name, String phone_num, String birthday, String address, String email, String password){
+        this.id = counter++;
         this.name = name;
-        this.address = address;
         this.phone_num = phone_num;
+        this.birthday = birthday;
+        this.address = address;
+        this.email = email;
+        this.password = password;
         this.bucket = new Bucket();
     }
 
     public User() {
-        this.id++;
+        this.id = counter++;
         this.name = "Undefined";
         this.phone_num = "Undefined";
+        this.birthday = "Undefined";
+        this.address = "Undefined";
+        this.email = "Undefined";
+        this.password = "Undefined";
         this.bucket = null;
     }
 
@@ -37,6 +50,42 @@ public class User {
         return phone_num;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+        @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phone_num='" + phone_num + '\'' +
+                ", bucket=" + bucket +
+                '}';
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public User registration(){
+        Scanner sc = new Scanner(System.in);
+        String name,phoneNum, birthday , address, email, password;
+        System.out.print("Firstname: ");
+        name = sc.next();
+        System.out.print("Phone number: ");
+        phoneNum = sc.next();
+        System.out.print("Birthday: ");
+        birthday = sc.next();
+        System.out.print("Address: ");
+        address = sc.next();
+        System.out.print("Email: ");
+        email = sc.next();
+        System.out.print("Password: ");
+        password = sc.next();
+
+        return new User(name, phoneNum, birthday, address, email, password);
+    }
+
     public static void main(String[] args) throws CloneNotSupportedException {
         Scanner sc = new Scanner(System.in);
         ArrayList<Product> products = new ArrayList<>(List.of(
@@ -48,7 +97,7 @@ public class User {
                 new Shoes("Shoes", 1, "Puma", 25000, 3, "41"),
                 new Jeans("Jeans", 1, "Americano", 9500, 6, "31")
         ));
-        User user = new User("Zhubaysh", "Aqtobe", "87783500809");
+        User user = new User("Zhubaysh", "87783500809", "18.02.2005","Aqtobe" , "zhubanysh.zharylkassynov@narxoz.kz", "Zhubanysh");
         while(true){
             System.out.println("1 - Show products\n" +
                     "2 - Show Bucket\n" +
@@ -118,7 +167,7 @@ public class User {
                                 System.out.println("\nTotal sum of products: " + user.bucket.totalSumOfProductsInTheBucket());
                                 break;
                             case 2:
-                                Order order = new Order("21.02.2024", user.bucket.getProducts(), user);
+                                Order order = new Order("21.02.2024", user.bucket.getProducts());
                                 System.out.println("Chose Transport:\n1 - Car\n2 - Train\n3 - Air");
                                 int choseTransport = sc.nextInt();
                                 if(choseTransport == 1) order.setDelivery(new Car());

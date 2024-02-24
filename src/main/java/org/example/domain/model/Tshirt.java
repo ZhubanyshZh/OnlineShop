@@ -1,8 +1,14 @@
-package org.example;
+package org.example.domain.model;
+
+import org.example.domain.model.abst.Product;
 
 public class Tshirt extends Product implements Cloneable{
     public Tshirt(String name, int cat, String brand, int price, int amount, String size){
         super(name, cat, brand, price, amount, size);
+    }
+
+    public Tshirt() {
+        super();
     }
 
     @Override
@@ -22,7 +28,7 @@ public class Tshirt extends Product implements Cloneable{
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }
