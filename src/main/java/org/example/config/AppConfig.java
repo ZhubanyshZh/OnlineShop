@@ -75,6 +75,15 @@ public class AppConfig {
     public Train getTrain(){
         return new Train();
     }
-
+    @Bean("Bucket")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Bucket getBacket(){
+        return new Bucket();
+    }
+    @Bean("Feedback")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Feedback getFeedback(){
+        return new Feedback();
+    }
 
 }
