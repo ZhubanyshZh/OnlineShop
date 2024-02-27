@@ -87,6 +87,7 @@ public class AppConfig {
     }
 
     @Bean("discountForBirthdayDiscount")
+    @Scope("prototype")
     public discountForBirthdaySubscriber discForBrthdSubs(){
         return new discountForBirthdaySubscriber();
     }

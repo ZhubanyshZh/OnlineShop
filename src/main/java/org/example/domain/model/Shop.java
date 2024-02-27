@@ -44,6 +44,9 @@ public class Shop {
                 ", usersList=" + usersList +
                 '}';
     }
+    public void addDiscount(int pr){
+        discountSubscriber();
+    }
 
     public ArrayList<Subscriber> getSubscribers() {
         return subscribers;
@@ -64,7 +67,6 @@ public class Shop {
         }
     }
 
-    // notifyDiscountSubscribers Beibit
     public void discountSubscriber(){
         for (Subscriber s: this.subscribers){
             if (s instanceof discountSubscriber){

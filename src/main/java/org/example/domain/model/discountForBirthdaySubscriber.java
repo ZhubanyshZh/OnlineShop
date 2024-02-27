@@ -6,31 +6,32 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.example.domain.customInterface.Subscriber;
 import com.sendgrid.*;
 import java.io.IOException;
+import org.example.*;
 
 public class discountForBirthdaySubscriber implements Subscriber {
     private String name;
     private String email;
-    private Mail mail;
+    private Email from = new Email("zubanyszarylkasyn@gmail.com");
 
-    SendGrid sg = new SendGrid("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");
-    Request request = new Request();
+    private SendGrid sg = new SendGrid(System.getenv("SEND_GRID_API_KEY"));
+    private Request request = new Request();
+
     public discountForBirthdaySubscriber(){
         this.name = "";
         this.email = "";
     }
+
     public discountForBirthdaySubscriber(String name, String email){
         this.name = name;
         this.email = email;
-        Email from = new Email("zubanyszarylkasyn@gmail.com");
-        Email to = new Email(this.email);
-        String subject = "Sending Email with Twilio Sendgrid";
-        Content content = new Content("text/plain", "Happy birthday");
-        this.mail = new Mail(from, subject, to, content);
     }
-
     @Override
     public void notifySubscriber() {
         try{
+            Email to = new Email(this.email);
+            String subject = "Discount For your Birthday!!!";
+            Content content = new Content("text/plain", "Happy birthday " + this.name);
+            Mail mail = new Mail(from, subject, to, content);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
@@ -50,5 +51,12 @@ public class discountForBirthdaySubscriber implements Subscriber {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
-// 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
