@@ -14,7 +14,7 @@ import java.io.IOException;
 public class discountSubscriber implements Subscriber {
     private String name;
     private String email;
-    private Email from = new Email("zubanyszarylkasyn@gmail.com");
+    private Email from = new Email("Mens_Shop@official");
 
     private SendGrid sg = new SendGrid(System.getenv("SEND_GRID_API_KEY"));
     private Request request = new Request();
@@ -34,22 +34,23 @@ public class discountSubscriber implements Subscriber {
     public void notifySubscriber() {
         try{
             Email to = new Email(this.email);
-            String subject = "Discount For your Birthday!!!";
-            Content content = new Content("text/plain", "\"Hello,"+this.name+", \n" +
-                    "get a "+this.pr+" discount on the entire spring collection! \n" +
-                    "The promotion is valid until March 22\"");
-            Mail mail = new Mail(from, subject, to, content);
+            String header = "Скидка для наших подписчиков";
+            Content content = new Content("text/plain", "\"Уважаемый,"+this.name+", \n" +
+                    "получите скидку "+this.pr+"  на всю весеннюю коллекцию! \n" +
+                    "Акция действует до 22 марта\"");
+            Mail mail = new Mail(from,header,to,content);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-            Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
+            Response r = sg.api(request);
+            System.out.println(r.getStatusCode());
+            System.out.println(r.getBody());
+            System.out.println(r.getHeaders());
         }catch(IOException ex){
             ex.printStackTrace();
         }
     }
+
 
     public String getName() {
         return name;
