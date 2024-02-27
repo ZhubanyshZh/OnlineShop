@@ -56,7 +56,13 @@ public class Shop {
         this.subscribers.add(s);
     }
 
-    // notifyNewCollectionSubscribers Bekassyl
+    public void notifyNewCollectionSubscribers(){
+        for(Subscriber s: this.subscribers){
+            if (s instanceof newCollectionSubscriber){
+                s.notifySubscriber();
+            }
+        }
+    }
 
     // notifyDiscountSubscribers Beibit
 
