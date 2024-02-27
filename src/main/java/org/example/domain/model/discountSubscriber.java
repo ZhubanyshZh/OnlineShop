@@ -9,6 +9,10 @@ public class discountSubscriber implements Subscriber {
         this.name = name;
         this.email = email;
     }
+    public discountSubscriber(){
+        this.name = "";
+        this.email = "";
+    }
     @Override
     public void notifySubscriber() {
 
