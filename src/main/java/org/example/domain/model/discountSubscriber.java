@@ -18,20 +18,26 @@ public class discountSubscriber implements Subscriber {
 
     private SendGrid sg = new SendGrid(System.getenv("SEND_GRID_API_KEY"));
     private Request request = new Request();
-    public discountSubscriber(String name, String email){
+    private int pr;
+
+    public discountSubscriber(String name, String email, int pr){
         this.name = name;
         this.email = email;
+        this.pr = pr;
     }
     public discountSubscriber(){
         this.name = "";
         this.email = "";
+        this.pr = 0;
     }
     @Override
     public void notifySubscriber() {
         try{
             Email to = new Email(this.email);
             String subject = "Discount For your Birthday!!!";
-            Content content = new Content("text/plain", "Happy birthday " + this.name);
+            Content content = new Content("text/plain", "\"Hello,"+this.name+", \n" +
+                    "get a "+this.pr+" discount on the entire spring collection! \n" +
+                    "The promotion is valid until March 22\"");
             Mail mail = new Mail(from, subject, to, content);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
@@ -59,5 +65,13 @@ public class discountSubscriber implements Subscriber {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPr() {
+        return pr;
+    }
+
+    public void setPr(int pr) {
+        this.pr = pr;
     }
 }

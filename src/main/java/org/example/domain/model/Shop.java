@@ -69,6 +69,7 @@ public class Shop {
         }
     }
 
+
     public void discountSubscriber(){
         for (Subscriber s: this.subscribers){
             if (s instanceof discountSubscriber){
