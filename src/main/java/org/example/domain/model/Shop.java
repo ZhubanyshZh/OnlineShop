@@ -62,7 +62,7 @@ public class Shop {
 
     public void notifyDiscountSubscribers(){
         for(Subscriber s: this.subscribers){
-            if(s instanceof discountForBirhdaySubscriber){
+            if(s instanceof discountForBirthdaySubscriber){
                 s.notifySubscriber();
             }
         }
