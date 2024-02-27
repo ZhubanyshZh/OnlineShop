@@ -17,4 +17,20 @@ public class discountSubscriber implements Subscriber {
     public void notifySubscriber() {
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

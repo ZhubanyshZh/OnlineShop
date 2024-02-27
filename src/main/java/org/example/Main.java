@@ -115,7 +115,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter name: ");
         String name = sc.next();
-        System.out.println("Enter your email");
+        System.out.print("Enter your email: ");
         String email = sc.next();
 
         while(flag){
@@ -123,6 +123,7 @@ public class Main {
                     "1 - Add notification\n" +
                             "2 - Delete notification\n" +
                             "3 - Show my notifications\n" +
+                            "4 - Notify Subscribers\n" +
                             "0 - Exit"
             );
             System.out.print("\nInput: ");
@@ -137,7 +138,7 @@ public class Main {
                                 "0 - Back");
                         System.out.print("\nInput: ");
                         int choose2 = sc.nextInt();
-                        switch (choose1){
+                        switch (choose2){
                             case 1:
                                 boolean alreadySubscribeForBirthdayDiscount = false;
                                 for(Subscriber s: shop.getSubscribers()){
@@ -147,7 +148,7 @@ public class Main {
                                 }
                                 if(alreadySubscribeForBirthdayDiscount) System.out.println("Yor already subscribe to this notification!");
                                 else{
-                                    Subscriber subscriber = new discountForBirthdaySubscriber(name, email);
+                                    Subscriber subscriber = ctx.getBean("discountForBirthdayDiscount", discountForBirthdaySubscriber.class);
                                     shop.subscribeToNotify(subscriber);
                                     System.out.println("\nSuccessfully Subscribe to \"Birthday Discount\" notification\n");
                                 }
@@ -155,27 +156,27 @@ public class Main {
                             case 2:
                                 boolean alreadySubscribetoDiscount = false;
                                 for(Subscriber s: shop.getSubscribers()){
-                                    if (s instanceof discountForBirthdaySubscriber && ((discountForBirthdaySubscriber) s).getEmail() == email){
+                                    if (s instanceof discountSubscriber && ((discountSubscriber) s).getEmail() == email){
                                         alreadySubscribetoDiscount = true;
                                     }
                                 }
                                 if(alreadySubscribetoDiscount) System.out.println("Yor already subscribe to this notification!");
                                 else{
-                                    Subscriber subscriber2 = new discountSubscriber(name, email);
+                                    Subscriber subscriber2 = ctx.getBean("discountSubscriber", discountSubscriber.class);
                                     shop.subscribeToNotify(subscriber2);
-                                    System.out.println("\nSuccessfully Subscribe to \"Birthday Discount\" notification\n");
+                                    System.out.println("\nSuccessfully Subscribe to \"Discount\" notification\n");
                                 }
                                 break;
                             case 3:
                                 boolean alreadySubscribeToNewCollection = false;
                                 for(Subscriber s: shop.getSubscribers()){
-                                    if (s instanceof discountForBirthdaySubscriber && ((discountForBirthdaySubscriber) s).getEmail() == email){
+                                    if (s instanceof newCollectionSubscriber && ((newCollectionSubscriber) s).getEmail() == email){
                                         alreadySubscribeToNewCollection = true;
                                     }
                                 }
                                 if(alreadySubscribeToNewCollection) System.out.println("Yor already subscribe to this notification!");
                                 else{
-                                    Subscriber subscriber3 = new newCollectionSubscriber(name, email);
+                                    Subscriber subscriber3 = ctx.getBean("newCollectionDiscount", newCollectionSubscriber.class);
                                     shop.subscribeToNotify(subscriber3);
                                     System.out.println("\nSuccessfully Subscribe to \"New Collection\" notification\n");
                                 }
@@ -194,7 +195,7 @@ public class Main {
                                 "0 - Back");
                         System.out.print("\nInput: ");
                         int choose3 = sc.nextInt();
-                        switch (choose1){
+                        switch (choose3){
                             case 1:
                                 Subscriber subscriber1 = new discountForBirthdaySubscriber(name, email);
                                 shop.unSubscribe(subscriber1);
@@ -229,39 +230,18 @@ public class Main {
                         }
                         flag2 = false;
                         break;
+                    case 4:
+//                        shop.notifyDiscountForBirthdaySubscribers();
+                        shop.notifyNewCollectionSubscribers();
+//                        shop.discountSubscriber();
+                        System.out.println("Successfully notify!!!");
+                        flag2 = false;
+                        break;
                     case 0:
                         return;
                     default:
                         System.out.println("Don't choose correctly!");
                 }
-            }
-        }
-
-        while(true){
-            System.out.println("1 - Add notification discount notify\n" +
-                    "2 - Add discount For Birthday notify\n" +
-                    "3 - Add new collection notify\n" +
-                    "4 - Delete notification \"Discount for Birthday\"" +
-                    "5 - Add discount For Birthday notify\n" +
-                    "6 - Add discount For Birthday notify\n" +
-                    "7 - Show my notifies\n" +
-                    "0 - Exit");
-            int choose1 = sc.nextInt();
-            switch (choose1){
-                case 1:
-                    boolean alreadySubscribeForBirthdayDiscount = false;
-                    for(Subscriber s: shop.getSubscribers()){
-                        if (s instanceof discountForBirthdaySubscriber && ((discountForBirthdaySubscriber) s).getEmail() == email){
-                            alreadySubscribeForBirthdayDiscount = true;
-                        }
-                    }
-                    if(alreadySubscribeForBirthdayDiscount) System.out.println("Yor already subscribe to this notification!");
-                    else{
-                        Subscriber subscriber = new discountForBirthdaySubscriber(name, email);
-                        shop.subscribeToNotify(subscriber);
-                    }
-                    break;
-
             }
         }
     }

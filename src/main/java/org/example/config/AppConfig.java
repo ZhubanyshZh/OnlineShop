@@ -92,4 +92,15 @@ public class AppConfig {
         return new discountForBirthdaySubscriber();
     }
 
+    @Bean("newCollectionDiscount")
+    @Scope("prototype")
+    public newCollectionSubscriber newCollecDiscSubs(){
+        return new newCollectionSubscriber();
+    }
+
+    @Bean("discountSubscriber")
+    @Scope("prototype")
+    public discountSubscriber discSubsc(){
+        return new discountSubscriber();
+    }
 }
