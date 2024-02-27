@@ -2,10 +2,7 @@ package org.example;
 
 import org.example.config.AppConfig;
 import org.example.domain.customInterface.Subscriber;
-import org.example.domain.model.Order;
-import org.example.domain.model.Shop;
-import org.example.domain.model.User;
-import org.example.domain.model.discountForBirthdaySubscriber;
+import org.example.domain.model.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
@@ -95,13 +92,27 @@ public class Main {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
         Shop shop = ctx.getBean("Shop", Shop.class);
-//        Subscriber subscriber = ctx.getBean("discountForBirthdayDiscount", discountForBirthdaySubscriber.class);
-//        shop.subscribeToNotify(subscriber);
-//        shop.notifyDiscountSubscribers();
-        boolean flag = true;
-        Scanner sc = new Scanner(System.in);
-        while(flag){
-            System.out.print("Enter name: ");
-        }
+        Subscriber subscriber = ctx.getBean("discountForBirthdayDiscount", discountForBirthdaySubscriber.class);
+        shop.subscribeToNotify(subscriber);
+        shop.notifyDiscountForBirthdaySubscribers();
+//        boolean flag = true;
+//        Scanner sc = new Scanner(System.in);
+//        System.out.print("Enter name: ");
+//        String name = sc.next();
+//        System.out.println("Enter your email");
+//        String email = sc.next();
+//        while(true){
+//            System.out.println("1 - Add discount notify\n" +
+//                    "2 - Add discount For Birthday notify\n" +
+//                    "3 - Add new collection notify\n" +
+//                    "4 - Show my notifies\n" +
+//                    "0 - Exit");
+//            int choose1 = sc.nextInt();
+//            switch (choose1){
+//                case 1:
+//                    Subscriber subscriber = new discountSubscriber();
+//                    shop.subscribeToNotify();
+//            }
+//        }
     }
 }

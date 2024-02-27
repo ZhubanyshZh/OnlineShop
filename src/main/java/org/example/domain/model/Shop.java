@@ -60,7 +60,7 @@ public class Shop {
 
     // notifyDiscountSubscribers Beibit
 
-    public void notifyDiscountSubscribers(){
+    public void notifyDiscountForBirthdaySubscribers(){
         for(Subscriber s: this.subscribers){
             if(s instanceof discountForBirthdaySubscriber){
                 s.notifySubscriber();
