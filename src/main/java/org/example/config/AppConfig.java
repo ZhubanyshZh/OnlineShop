@@ -86,4 +86,9 @@ public class AppConfig {
         return new Feedback();
     }
 
+    @Bean("discountForBirthdayDiscount")
+    public discountForBirthdaySubscriber discForBrthdSubs(){
+        return new discountForBirthdaySubscriber();
+    }
+
 }

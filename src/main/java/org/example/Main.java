@@ -1,14 +1,18 @@
 package org.example;
 
 import org.example.config.AppConfig;
+import org.example.domain.customInterface.Subscriber;
 import org.example.domain.model.Order;
 import org.example.domain.model.Shop;
 import org.example.domain.model.User;
+import org.example.domain.model.discountForBirthdaySubscriber;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.Scanner;
 
 public class Main {
     String[] categories_id = {"Shoes", "T-shirt", "Jeans"};
-    static Shop shop = new Shop("Shop");
+//    static Shop shop = new Shop("Shop");
 
     public static void main(String[] args) {
 //        ArrayList<Product> p = new ArrayList<Product>(List.of(
@@ -72,6 +76,17 @@ public class Main {
 ////        Delivery delivery3 = new Air();
 //        order.getDeliveryDate();
 //        order.getDeliveryCost();
+//        System.out.println(shop);
+//        User user = ctx.getBean("User", User.class);
+//        user.setName("Bekassyl");
+//        System.out.println(shop);
+//        User user2 = ctx.getBean("User", User.class);
+//        user2.setName("Zhubanysh");
+//        System.out.println(shop);
+//
+//        Order order = ctx.getBean("Order", Order.class);
+//        order.setUser(user);
+//        System.out.println(order);
 
 
 
@@ -80,16 +95,13 @@ public class Main {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
         Shop shop = ctx.getBean("Shop", Shop.class);
-        System.out.println(shop);
-        User user = ctx.getBean("User", User.class);
-        user.setName("Bekassyl");
-        System.out.println(shop);
-        User user2 = ctx.getBean("User", User.class);
-        user2.setName("Zhubanysh");
-        System.out.println(shop);
-
-        Order order = ctx.getBean("Order", Order.class);
-        order.setUser(user);
-        System.out.println(order);
+//        Subscriber subscriber = ctx.getBean("discountForBirthdayDiscount", discountForBirthdaySubscriber.class);
+//        shop.subscribeToNotify(subscriber);
+//        shop.notifyDiscountSubscribers();
+        boolean flag = true;
+        Scanner sc = new Scanner(System.in);
+        while(flag){
+            System.out.print("Enter name: ");
+        }
     }
 }
