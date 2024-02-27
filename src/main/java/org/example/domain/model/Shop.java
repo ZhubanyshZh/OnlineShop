@@ -52,7 +52,9 @@ public class Shop {
         return subscribers;
     }
     public void unSubscribe(Subscriber s){
-        this.subscribers.remove(s);
+        if(s instanceof discountForBirthdaySubscriber) this.subscribers.remove((discountForBirthdaySubscriber)s);
+        else if(s instanceof discountSubscriber) this.subscribers.remove((discountSubscriber) s);
+        else this.subscribers.remove((newCollectionSubscriber) s);
     }
 
     public void subscribeToNotify(Subscriber s){
@@ -81,5 +83,16 @@ public class Shop {
                 s.notifySubscriber();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Shop shop = new Shop("Men's Shop");
+        Subscriber s = new newCollectionSubscriber("Beka", "Beka");
+        shop.subscribeToNotify(s);
+
+        System.out.println(shop.getSubscribers());
+        shop.unSubscribe(s);
+//        shop.getSubscribers().remove(s);
+        System.out.println(shop.getSubscribers());
     }
 }

@@ -17,18 +17,6 @@ public class newCollectionSubscriber implements Subscriber {
     private Email from = new Email("zubanyszarylkasyn@gmail.com");
     private SendGrid sg = new SendGrid(System.getenv("SEND_GRID_API_KEY"));
     private Request request = new Request();
-    private String value = "Дорогой ," + this.name + "\n" +
-            "\n" +
-            "У НАС ВЕЛИКОЛЕПНЫЕ НОВОСТИ\n" +
-            "Свежая волна стиля пришла в наш онлайн магазин! Очаровывайтесь последними трендами, погружайтесь в океан уникальных дизайнов и создавайте свою неповторимую историю стиля.\n" +
-            "\n" +
-            "Экспериментируйте с разнообразием стилей, играйте цветами, подчеркивайте индивидуальность.\n" +
-            "\n" +
-            "\n" +
-            "Благодарим за вашу страсть к моде!\n" +
-            "\n" +
-            "С любовью и стилем,\n" +
-            "Men’s shop.";
 
     public newCollectionSubscriber(String name, String email) {
         this.name = name;
@@ -44,7 +32,19 @@ public class newCollectionSubscriber implements Subscriber {
         try{
             Email to = new Email(this.email);
             String subject = "New Collection";
-            Content content = new Content("text/plain", this.value);
+            String value = "Дорогой ," + this.name + "\n" +
+                    "\n" +
+                    "У НАС ВЕЛИКОЛЕПНЫЕ НОВОСТИ\n" +
+                    "Свежая волна стиля пришла в наш онлайн магазин! Очаровывайтесь последними трендами, погружайтесь в океан уникальных дизайнов и создавайте свою неповторимую историю стиля.\n" +
+                    "\n" +
+                    "Экспериментируйте с разнообразием стилей, играйте цветами, подчеркивайте индивидуальность.\n" +
+                    "\n" +
+                    "\n" +
+                    "Благодарим за вашу страсть к моде!\n" +
+                    "\n" +
+                    "С любовью и стилем,\n" +
+                    "Men’s shop.";
+            Content content = new Content("text/plain", value);
             Mail mail = new Mail(from, subject, to, content);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
@@ -72,9 +72,5 @@ public class newCollectionSubscriber implements Subscriber {
 
     public String getEmail() {
         return email;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(System.getenv("SEND_GRID_API_KEY"));
     }
 }
