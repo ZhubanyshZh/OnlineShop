@@ -231,9 +231,9 @@ public class Main {
                         flag2 = false;
                         break;
                     case 4:
-//                        shop.notifyDiscountForBirthdaySubscribers();
+                        shop.notifyDiscountForBirthdaySubscribers();
                         shop.notifyNewCollectionSubscribers();
-//                        shop.discountSubscriber();
+                        shop.discountSubscriber();
                         System.out.println("Successfully notify!!!");
                         flag2 = false;
                         break;
