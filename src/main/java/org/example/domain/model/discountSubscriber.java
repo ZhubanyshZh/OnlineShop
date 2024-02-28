@@ -18,17 +18,17 @@ public class discountSubscriber implements Subscriber {
 
     private SendGrid sg = new SendGrid(System.getenv("SEND_GRID_API_KEY"));
     private Request request = new Request();
-    private int pr;
+    private int percent;
 
     public discountSubscriber(String name, String email, int pr){
         this.name = name;
         this.email = email;
-        this.pr = pr;
+        this.percent = pr;
     }
     public discountSubscriber(){
         this.name = "";
         this.email = "";
-        this.pr = 0;
+        this.percent = 0;
     }
     @Override
     public void notifySubscriber() {
@@ -36,8 +36,10 @@ public class discountSubscriber implements Subscriber {
             Email to = new Email(this.email);
             String subject = "Discount For your Birthday!!!";
             Content content = new Content("text/plain", "\"Hello,"+this.name+", \n" +
-                    "get a "+this.pr+" discount on the entire spring collection! \n" +
-                    "The promotion is valid until March 22\"");
+                    "get a "+this.percent+"% off discount on the entire spring collection! \n" +
+                    "The promotion is valid until March 22\"\n" +
+                    "С любовью и стилем,\n" +
+                    "Men’s shop.");
             Mail mail = new Mail(from, subject, to, content);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
@@ -68,10 +70,10 @@ public class discountSubscriber implements Subscriber {
     }
 
     public int getPr() {
-        return pr;
+        return percent;
     }
 
     public void setPr(int pr) {
-        this.pr = pr;
+        this.percent = pr;
     }
 }

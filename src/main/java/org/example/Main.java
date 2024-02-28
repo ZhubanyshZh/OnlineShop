@@ -151,6 +151,7 @@ public class Main {
                                     Subscriber subscriber = ctx.getBean("discountForBirthdayDiscount", discountForBirthdaySubscriber.class);
                                     ((discountForBirthdaySubscriber) subscriber).setName(name);
                                     ((discountForBirthdaySubscriber) subscriber).setEmail(email);
+                                    ((discountForBirthdaySubscriber) subscriber).setPercent(20);
                                     shop.subscribeToNotify(subscriber);
                                     System.out.println("\nSuccessfully Subscribe to \"Birthday Discount\" notification\n");
                                 }
@@ -167,6 +168,7 @@ public class Main {
                                     Subscriber subscriber2 = ctx.getBean("discountSubscriber", discountSubscriber.class);
                                     ((discountSubscriber) subscriber2).setName(name);
                                     ((discountSubscriber) subscriber2).setEmail(email);
+                                    ((discountSubscriber) subscriber2).setPr(30);
                                     shop.subscribeToNotify(subscriber2);
                                     System.out.println("\nSuccessfully Subscribe to \"Discount\" notification\n");
                                 }
