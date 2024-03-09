@@ -1,13 +1,14 @@
 package org.example.domain.model.abst;
 
 import org.example.domain.customInterface.Reviewable;
+import org.example.domain.model.CustomPrint;
 import org.example.domain.model.Feedback;
 
 import java.util.ArrayList;
 
 public abstract class Product implements Reviewable, Cloneable{
-    private static int counter = 1;
-    private int id = 1;
+    protected static int counter = 1;
+    protected int id = 1;
     protected String name;
     protected int category_id;
     protected String brand;
@@ -28,12 +29,12 @@ public abstract class Product implements Reviewable, Cloneable{
 
     public Product() {
         this.id = counter++;
-        this.name = "name";
+        this.name = "{Product name}";
         this.category_id = 0;
-        this.brand = "brand";
+        this.brand = "{brand}";
         this.price = 0;
         this.amount = 0;
-        this.size = "size";
+        this.size = "{size}";
         this.feedbacks = new ArrayList<Feedback>();
     }
 
@@ -61,8 +62,47 @@ public abstract class Product implements Reviewable, Cloneable{
         return id;
     }
 
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Product.counter = counter;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     public void getProductInfo() {
-        System.out.println("This is " + this.name +"\nCategory_id: " + this.category_id + "\nBrand: " + this.brand + "\nPrice: " + this.price + "\nSize: " + this.size);
+        System.out.println("This is " + this.name +
+                ", brand: " + this.brand +
+                ", price: " + this.price + " KZT " +
+                ", size: " + this.size);
     }
 
     public int getCategory() {
@@ -71,9 +111,7 @@ public abstract class Product implements Reviewable, Cloneable{
     public String getBrand() {
         return brand;
     }
-    public int getPrice() {
-        return price;
-    }
+    public abstract int getPrice();
     public int getAmount() {
         return amount;
     }
@@ -88,13 +126,6 @@ public abstract class Product implements Reviewable, Cloneable{
         this.amount = amount;
     }
 
-    //    public Product getProductById(Shop shop, int id){
-//        for(Product i: shop.getProducts()){
-//            if(i.getId() == id){
-//                return i;
-//            }
-//        }
-//
-//        return null;
-//    }
+    public void AddCustomPrint(String customPrint){
+    }
 }
