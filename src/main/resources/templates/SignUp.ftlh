@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро Пожаловать в Canelli Co!</title>
+</head>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href="https://fonts.cdnfonts.com/css/bebas-neue" rel="stylesheet">
+<style>
+    @import url('https://fonts.cdnfonts.com/css/bebas-neue');
+    .body{
+        width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: white;
+        margin-top: 30px;
+    }
+    form label {
+        width:150px;
+        clear:left;
+        text-align:left;
+        padding-right:10px;
+        color: #343434;
+    }
+
+    form input, label {
+        float:left;
+    }
+    form h2{
+        color: #566A7F;
+    }
+    button{
+        width: 100%;
+        padding: 4px;
+    }
+    form input{
+        font-family: 'Montserrat';
+        padding: 0 16px;
+        width: 100%;
+        height: 40px;
+        padding-left: 16px;
+        border-radius: 3px;
+        border: 1px solid;
+        box-sizing: border-box;
+        color: #8d8d8d;
+        line-height: 17px;
+    }
+    select{
+        font-family: 'Montserrat';
+        width: 100%;
+        height: 40px;
+        padding-left: 16px;
+        border-radius: 3px;
+        color: #8d8d8d;
+        line-height: 17px;
+
+    }
+    option{
+        color: black;
+    }
+    form a{
+        font-family: 'Arial';
+        font-weight: 600;
+        color: black;
+    }
+    form div{
+        font-family: TradeGothicforNike365-BdCn,Helvetica!important;
+        font-size: 14px;
+        padding: 5px 0 5px 0;
+    }
+    form input:focus{
+        outline: none;
+    }
+    form .error-message {
+        display: none;
+        font-weight: bold;
+        color: red;
+    }
+
+    form h2{
+        margin: 0;
+        color: #111;
+
+    }
+    form h2.h2{
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 34px;
+        font-weight: 900;
+    }
+    form .logo{
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        margin-bottom: 30px;
+    }
+    form p{
+        font-family: 'Montserrat';
+    }
+    form img.img1{
+        width: 35%;
+    }
+    input::placeholder{
+        font-family: 'Montserrat';
+        font-size: 14px;
+    }
+    /* .checkbox{
+        float: right;
+    }
+    input.check1{
+        float: left;
+    } */
+    button{
+        background-color: #000;
+        border: 1px solid #000;
+        border-radius: 3px;
+        color: #fff;
+        cursor: pointer;
+        display: block;
+        font-family: TradeGothicforNike365-BdCn,Helvetica!important;
+        font-size: 15px;
+        margin: auto;
+        height: 40px;
+    }
+
+    .error{
+        background-color: rgba(0,0,0,0.5);
+        bottom: 0;
+        left: 0;
+        max-width: 100%;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 500;
+    }
+    .error-panel {
+        background-color: #fff;
+        background-size: 90px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        left: inherit;
+        margin: auto;
+        max-width: 540px;
+        padding: 30px 20px;
+        position: absolute;
+        right: inherit;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .h3{
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Arial';
+    }
+    .error-panel ul{
+        list-style-type: none;
+    }
+    .error-panel .error-close input{
+        background: black;
+        color: white;
+        font-family: 'Montserrat';
+        padding: 0 16px;
+        width: 100%;
+        height: 40px;
+        padding-left: 16px;
+        border-radius: 3px;
+        border: 1px solid;
+        box-sizing: border-box;
+        line-height: 17px;
+    }
+    .error-panel .error-close input:hover{
+        cursor: pointer;
+    }
+
+    /* HEADER CSS */
+    /* body{
+            background-image: url("img/monc.webp");
+        } */
+    header{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        height: 80px;
+        background: black;
+        width: 100%;
+    }
+    .links ul{
+        display: flex;
+        list-style-type: none;
+    }
+    div.links li{
+        padding: 18px 15px 18px 15px;
+    }
+    div.links ul li a{
+        color: black;
+        text-decoration: none;
+        font-family: 'Montserrat';
+        color: white;
+        font-size: 19px;
+    }
+    .moncler{
+        margin: 70px 0 18px 30px;
+        width: 55%;
+        cursor: pointer;
+    }
+    .links svg{
+        border-radius: 50%;
+        padding: 4px;
+        color: white;
+    }
+    .links svg:hover{
+        background: #e5e5e5;
+        cursor: pointer;
+    }
+    div.actions{
+        display: flex;
+    }
+    div.searchs{
+        margin: 30px 2px 30px 2px;
+    }
+    .links ul li input{
+        margin-top: 10px;
+    }
+    .links ul li input{
+        border-radius: 20px;
+    }
+    header{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        height: 80px;
+        transition: 0.5s;
+        width: 100%;
+    }
+    header:hover{
+        background: white;
+    }
+    header:hover .links ul li a{
+        color: black;
+    }
+    header:hover svg{
+        color: black;
+    }
+    header:hover .btn{
+        color: black;
+    }
+    .btn{
+        color: white;
+        font-family: 'Montserrat';
+        font-size: 13px;
+    }
+    .links{
+        padding: 0;
+        height: 60px;
+    }
+    .links ul{
+        display: flex;
+        list-style-type: none;
+    }
+    div.links li{
+        padding: 18px 15px 26px 15px;
+    }
+    div.links ul li a{
+        color: black;
+        text-decoration: none;
+        font-family: 'Montserrat';
+        color: white;
+        font-size: 15px;
+    }
+    .moncler{
+        margin: 70px 0 18px 30px;
+        width: 55%;
+        cursor: pointer;
+        color: white;
+    }
+    .monclerlogo{
+        z-index: 999;
+    }
+    .links svg{
+        border-radius: 50%;
+        padding: 3px;
+        color: white;
+    }
+    .links svg:hover{
+        background: #e5e5e5;
+        cursor: pointer;
+    }
+    div.actions{
+        display: flex;
+    }
+    div.searchs{
+        margin: 30px 2px 30px 2px;
+    }
+    .links ul li input{
+        margin-top: 10px;
+    }
+    .links input{
+        border-radius: 20px;
+    }
+    ul li ul.dropdown li{
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+    ul li ul.dropdown li a{
+        color: black;
+        font-size: 15px;
+        font-family: 'Montserrat';
+    }
+    ul li ul.dropdown{
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto auto auto auto;
+        padding: 100px 100px 80px 400px;
+        column-gap: 80px;
+        row-gap: 5px;
+    }
+    ul li:hover ul.dropdown{
+        display: grid;
+    }
+    img.present{
+        width: 100%;
+    }
+    li.item_img{
+        grid-row: 1 / 10;
+        grid-column: 4 / 5;
+        width: 60%;
+        height: auto;
+    }
+
+    ul li ul.dropdown1 li{
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+    /*dropdown1*/
+    ul li ul.dropdown1 h5{
+        padding: 0;
+        margin: 0;
+    }
+    ul li ul.dropdown1 li a{
+        color: black;
+        font-size: 15px;
+        font-family: 'Montserrat';
+    }
+    ul li ul.dropdown1{
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto auto auto auto auto;
+        padding: 100px 100px 80px 300px;
+        column-gap: 80px;
+        row-gap: 5px;
+    }
+    ul li:hover ul.dropdown1{
+        display: grid;
+    }
+    /* img.present{
+        width: 100%;
+    } */
+    li.item_img1{
+        grid-row: 1 / 16;
+        grid-column: 5 / 6;
+        width: 60%;
+        height: auto;
+    }
+    ul li ul.dropdown2 li{
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+    ul li ul.dropdown2{
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 1670px;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto;
+        column-gap: 20px;
+        row-gap: 13px;
+        padding: 0 10px;
+        text-align: center;
+    }
+    ul li:hover ul.dropdown2{
+        display: grid;
+    }
+    ul li ul.dropdown2 li a{
+        color: black;
+        font-size: 20px;
+        font-family: 'Montserrat';
+    }
+</style>
+<body>
+<#--<div class="error" style="display: block;" onclick="myfunc()">-->
+<#--    <div class="error-panel">-->
+<#--        <span class="h3">Произошла ошибка</span>-->
+<#--        <ul>-->
+<#--            <li>Пользователя с такой почтой или номереом телефона уже существует.</li>-->
+<#--        </ul>-->
+<#--        <div class="error-close">-->
+<#--            <input type="button" value="Закрыть сообщение">-->
+<#--        </div>-->
+<#--    </div>-->
+<#--</div>-->
+<header>
+    <div class="monclerlogo">
+        <a href="HomePage"><img src="img/monclerlogo.webp" alt="Bekassyl" onclick="clicklogo" class="moncler" /></a>
+    </div>
+    <div class="links">
+        <ul>
+            <li><a href="#">О компаний</a></li>
+        </ul>
+    </div>
+    <div class="links">
+        <ul>
+            <li><a href="/Login">Login</a></li>
+            <li>|</li>
+            <li><a href="/SignUp">Signup</a></li>
+        </ul>
+    </div>
+</header>
+<div class="body">
+    <form th:method="POST" th:action="@{/SignUp}">
+        <h2 class="h2">БУДЬ С НАМИ В МОДЕ</h2>
+        <h2 class="logo">Men's Shop</h2>
+        <p>Создай профиль члена клуба Canelli co. и получи<br> доступ к лучшим товарам Men's Shop, источникам<br> вдохновения и общению в сообществе.</p><br><br>
+        <input type="text" name="name" id="name" value="" placeholder="First name" required><br>
+
+
+        <input type="text" name="phoneNumber" id="phoneNumber" value="" placeholder="Phone Number" required><br>
+
+        <input type="date" name="birthday" value="" required><br><br>
+
+
+        <select name="address" required>
+            <option value=""></option>
+            <option value="БатысҚ">Батыс Қазақстан</option>
+            <option value="Орал">Орал</option>
+            <option value="Атырау">Атырау</option>
+            <option value="Ақтөбе">Ақтөбе</option>
+            <option value="Маңғыстау">Маңғыстау</option>
+            <option value="Қостанай">Қостанай</option>
+            <option value="Қызылорда">Қызылорда</option>
+            <option value="Ұлытау">Ұлытау</option>
+            <option value="Түркістан">Түркістан</option>
+            <option value="Шымкент">Шымкент</option>
+            <option value="Тараз">Тараз</option>
+            <option value="Алматы">Алматы</option>
+            <option value="Талдықорған">Талдықорған</option>
+            <option value="Семей">Семей</option>
+            <option value="Өскемен">Өскемен</option>
+            <option value="Қарағанды">Қарағанды</option>
+            <option value="Павлодар">Павлодар</option>
+            <option value="Астана">Астана</option>
+            <option value="Көкшетау">Көкшетау</option>
+            <option value="Петропавл">Петропавл</option>
+        </select><br>
+
+        <input type="email" name="email" id="email" value="" placeholder="Email" required><br>
+
+        <input type="password" name="password" id="password" value="" placeholder="Password" required><br><br>
+
+        <!-- <input type="checkbox" name="message" id="chechbox" class="check1">
+        <label for="checkbox" class="checkbox">Подпишись на рассылку, чтобы получать новости<br> от Canelli co. о товарах, а также предложения и<br> преимущества для членов клуба</label> -->
+
+        <button type="submit">ДАВАЙ С НАМИ</button>
+        <p>Ты уже участник? <a href="Login">Войди</a></p>
+    </form>
+</div>
+
+<script>
+    function myfunc(){
+        document.getElementsByClassName("error")[0].style.display = "none";
+    }
+    if (performance.navigation.type === 1) {
+        window.location.href = 'SignUp';
+    }
+
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

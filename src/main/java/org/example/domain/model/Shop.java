@@ -85,15 +85,4 @@ public class Shop {
             }
         }
     }
-
-    public static void main(String[] args) {
-        Shop shop = new Shop("Men's Shop");
-        Subscriber s = new newCollectionSubscriber("Beka", "Beka");
-        shop.subscribeToNotify(s);
-
-        System.out.println(shop.getSubscribers());
-        shop.unSubscribe(s);
-//        shop.getSubscribers().remove(s);
-        System.out.println(shop.getSubscribers());
-    }
 }
