@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.example.entity.User;
 import org.example.dto.UserDto;
+import org.example.repository.SingletonUserRepository;
 import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -63,8 +64,8 @@ public class UserService {
         boolean haveAlreadyAccount = false;
 
         for(User u: users){
-            if(u.getEmail() == userDto.getEmail() ||
-                u.getPhoneNumber() == userDto.getPhoneNumber())
+            if(u.getEmail().equals(userDto.getEmail()) ||
+                u.getPhoneNumber().equals(userDto.getPhoneNumber()))
             {
                 haveAlreadyAccount = true;
                 break;
@@ -113,5 +114,14 @@ public class UserService {
         user.setUserPassword(userDto.getPassword().trim());
 
         return user;
+    }
+
+    public void deleteUser(UserDto userDto){
+
+        for(User u : userRepository.findAll()){
+            if(u.getEmail().equals(userDto.getEmail())){
+                userRepository.delete(u);
+            }
+        }
     }
 }

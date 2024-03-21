@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.aspect.ToLogOurApp;
 import org.example.dto.UserDto;
 import org.example.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class LoginController {
         model.addAttribute("logo", "monclerlogo.webp");
         return "Login";
     }
-
+    @ToLogOurApp
     @PostMapping
     public String authorization(@RequestBody UserDto userDto, Model model){
         if(userService.checkUser(userDto.getEmail(), userDto.getPassword())){

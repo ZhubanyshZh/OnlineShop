@@ -25,7 +25,7 @@ public final class User {
     private String name;
 
     @Column(name = "phoneNumber", unique = true)
-private String phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "birthday")
     private String birthday;
