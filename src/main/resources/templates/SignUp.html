@@ -404,17 +404,19 @@
     }
 </style>
 <body>
-<#--<div class="error" style="display: block;" onclick="myfunc()">-->
-<#--    <div class="error-panel">-->
-<#--        <span class="h3">Произошла ошибка</span>-->
-<#--        <ul>-->
-<#--            <li>Пользователя с такой почтой или номереом телефона уже существует.</li>-->
-<#--        </ul>-->
-<#--        <div class="error-close">-->
-<#--            <input type="button" value="Закрыть сообщение">-->
-<#--        </div>-->
-<#--    </div>-->
-<#--</div>-->
+
+
+<div th:if="${alreadyHave}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="h3">Произошла ошибка</span>
+        <ul>
+            <li>Пользователя с такой почтой или номереом телефона уже существует.</li>
+        </ul>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
 <header>
     <div class="monclerlogo">
         <a href="HomePage"><img src="img/monclerlogo.webp" alt="Bekassyl" onclick="clicklogo" class="moncler" /></a>
@@ -433,20 +435,23 @@
     </div>
 </header>
 <div class="body">
-    <form th:method="POST" th:action="@{/SignUp}">
+    <form method="POST" action="/SignUp">
         <h2 class="h2">БУДЬ С НАМИ В МОДЕ</h2>
         <h2 class="logo">Men's Shop</h2>
         <p>Создай профиль члена клуба Canelli co. и получи<br> доступ к лучшим товарам Men's Shop, источникам<br> вдохновения и общению в сообществе.</p><br><br>
-        <input type="text" name="name" id="name" value="" placeholder="First name" required><br>
+        <input type="text" name="name" id="name" th:value="${name}" placeholder="First name"><br>
+        <div style="color: red;" th:if="${nameError}" th:text="${nameErrorContent}"></div>
 
 
-        <input type="text" name="phoneNumber" id="phoneNumber" value="" placeholder="Phone Number" required><br>
+        <input type="text" name="phoneNumber" id="phoneNumber" th:value="${phoneNum}" placeholder="Phone Number"><br>
+        <div style="color: red;" th:if="${phNumError}" th:text="${phNumErrorContent}"></div>
 
-        <input type="date" name="birthday" value="" required><br><br>
+        <input type="date" name="birthday" th:value="${birthday}"><br>
+        <div style="color: red;" th:if="${birthdayError}" th:text="${birthdayErrorContent}"></div>
 
 
-        <select name="address" required>
-            <option value=""></option>
+        <select name="address" value="">
+            <option value="">Address</option>
             <option value="БатысҚ">Батыс Қазақстан</option>
             <option value="Орал">Орал</option>
             <option value="Атырау">Атырау</option>
@@ -468,10 +473,13 @@
             <option value="Көкшетау">Көкшетау</option>
             <option value="Петропавл">Петропавл</option>
         </select><br>
+        <div style="color: red;" th:if="${addressError}" th:text="${addressErrorContent}"></div>
 
-        <input type="email" name="email" id="email" value="" placeholder="Email" required><br>
+        <input type="email" name="email" id="email" th:value="${email}" placeholder="Email"><br>
+        <div style="color: red;" th:if="${emailError}" th:text="${emailErrorContent}"></div>
 
-        <input type="password" name="password" id="password" value="" placeholder="Password" required><br><br>
+        <input type="password" name="password" id="password" th:value="${password}" placeholder="Password"><br><br>
+        <div style="color: red;" th:if="${passwordError}" th:text="${passwordErrorContent}"></div>
 
         <!-- <input type="checkbox" name="message" id="chechbox" class="check1">
         <label for="checkbox" class="checkbox">Подпишись на рассылку, чтобы получать новости<br> от Canelli co. о товарах, а также предложения и<br> преимущества для членов клуба</label> -->

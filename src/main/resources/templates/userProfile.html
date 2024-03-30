@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href="https://fonts.cdnfonts.com/css/bebas-neue" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<style>
+    img.photo {
+        height: auto;
+        position: relative;
+        top: -98px;
+        z-index: -1;
+        width: 100%;
+    }
+
+    header {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        height: 80px;
+        transition: 0.5s;
+        width: 100%;
+        background-color: black;
+    }
+
+    header:hover {
+        background: white;
+    }
+
+    header:hover .links ul li a {
+        color: black;
+    }
+
+    header:hover svg {
+        color: black;
+    }
+
+    header:hover .btn {
+        color: black;
+    }
+
+    .btn {
+        color: white;
+        font-family: 'Montserrat';
+        font-size: 13px;
+    }
+
+    .links {
+        padding: 0;
+        height: 60px;
+    }
+
+    .links ul {
+        display: flex;
+        list-style-type: none;
+    }
+
+    div.links li {
+        padding: 18px 15px 26px 15px;
+    }
+
+    div.links ul li a {
+        color: black;
+        text-decoration: none;
+        font-family: 'Montserrat';
+        color: white;
+        font-size: 15px;
+    }
+
+    .moncler {
+        margin: 70px 0 18px 30px;
+        width: 55%;
+        cursor: pointer;
+        color: white;
+    }
+
+    .monclerlogo {
+        z-index: 999;
+    }
+
+    .links svg {
+        border-radius: 50%;
+        padding: 3px;
+        color: white;
+    }
+
+    .links svg:hover {
+        background: #e5e5e5;
+        cursor: pointer;
+    }
+
+    div.actions {
+        display: flex;
+    }
+
+    div.searchs {
+        margin: 30px 2px 30px 2px;
+    }
+
+    .links ul li input {
+        margin-top: 10px;
+    }
+
+    .links input {
+        border-radius: 20px;
+    }
+
+    ul li ul.dropdown li {
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+
+    ul li ul.dropdown li a {
+        color: black;
+        font-size: 15px;
+        font-family: 'Montserrat';
+    }
+
+    ul li ul.dropdown {
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto auto auto auto;
+        padding: 100px 100px 80px 400px;
+        column-gap: 80px;
+        row-gap: 5px;
+    }
+
+    ul li:hover ul.dropdown {
+        display: grid;
+    }
+
+    img.present {
+        width: 100%;
+    }
+
+    li.item_img {
+        grid-row: 1 / 10;
+        grid-column: 4 / 5;
+        width: 60%;
+        height: auto;
+    }
+
+    ul li ul.dropdown1 li {
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+
+    /*dropdown1*/
+    ul li ul.dropdown1 h5 {
+        padding: 0;
+        margin: 0;
+    }
+
+    ul li ul.dropdown1 li a {
+        color: black;
+        font-size: 15px;
+        font-family: 'Montserrat';
+    }
+
+    ul li ul.dropdown1 {
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto auto auto auto auto;
+        padding: 100px 100px 80px 300px;
+        column-gap: 80px;
+        row-gap: 5px;
+    }
+
+    ul li:hover ul.dropdown1 {
+        display: grid;
+    }
+
+    /* img.present{
+        width: 100%;
+    } */
+    li.item_img1 {
+        grid-row: 1 / 16;
+        grid-column: 5 / 6;
+        width: 60%;
+        height: auto;
+    }
+
+    ul li ul.dropdown2 li {
+        transition: 0.5s;
+        display: block;
+        padding: 0;
+    }
+
+    ul li ul.dropdown2 {
+        background: white;
+        position: absolute;
+        top: 80px;
+        left: 1670px;
+        z-index: 900;
+        display: none;
+        grid-template-columns: auto;
+        column-gap: 20px;
+        row-gap: 13px;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    ul li:hover ul.dropdown2 {
+        display: grid;
+    }
+
+    ul li ul.dropdown2 li a {
+        color: black;
+        font-size: 20px;
+        font-family: 'Montserrat';
+    }
+
+    footer {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto auto auto;
+        background-color: black;
+        padding: 50px;
+        color: white;
+        gap: 15px;
+        position: relative;
+        width: auto;
+    }
+
+    .first {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 20px;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .con {
+        display: flex;
+        justify-content: flex-end;
+        grid-row: 5 / 6;
+        grid-column: 7 / 9;
+        font-family: "Montserrat", "Open Sans", Helvetica, Arial, sans-serif;
+    }
+
+    .us {
+        display: flex;
+        justify-content: flex-end;
+        font-family: "Montserrat";
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .second {
+        font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
+    }
+
+    .icons {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    }
+    .error{
+        background-color: rgba(0,0,0,0.5);
+        bottom: 0;
+        left: 0;
+        max-width: 100%;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 500;
+    }
+    .error-panel {
+        background-color: #fff;
+        background-size: 90px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        left: inherit;
+        margin: auto;
+        max-width: 540px;
+        padding: 30px 20px;
+        position: absolute;
+        right: inherit;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .h3{
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Arial';
+    }
+    .error-panel ul{
+        list-style-type: none;
+    }
+    .error-panel .error-close input{
+        background: black;
+        color: white;
+        font-family: 'Montserrat';
+        padding: 0 16px;
+        width: 100%;
+        height: 40px;
+        padding-left: 16px;
+        border-radius: 3px;
+        border: 1px solid;
+        box-sizing: border-box;
+        line-height: 17px;
+    }
+    .error-panel .error-close input:hover{
+        cursor: pointer;
+    }
+</style>
+<body>
+<header>
+    <div class="monclerlogo">
+        <a href="HomePage"><img src="img/monclerlogo.webp" alt="123" onclick="clicklogo" class="moncler"></a>
+    </div>
+
+    <div class="links" th:if="${userName}">
+        <ul>
+            <li><a href="#">Новинки</a>
+                <ul class="dropdown">
+                    <li><h5>НОВЫЕ ПОСТУПЛЕНИЯ</h5></li>
+                    <li><h5>MONCLER CURATORS</h5></li>
+                    <li><h5>ИСТОРИИ</h5></li>
+                    <li class="item_img"><img src="img/present.webp" alt="123" class="present"></li>
+                    <li><a href="#">Новинки для Него</a></li>
+                    <li><a href="#">Смотреть весь раздел</a></li>
+                    <li><a href="#">Смотреть все истории</a></li>
+                    <li><a href="#">Новинки для Нее</a></li>
+                    <li><a href="#">Curators</a></li>
+                    <li><a href="#">For the Love of Winter</a></li>
+                    <li><a href="#">Moncler Karakorum</a></li>
+                    <li><a href="#">Garbiñe Muguruza</a></li>
+                    <li><a href="#">Inter x Moncler by Arsham</a></li>
+                    <li><a href="#">Moncler x Palm Angels</a></li>
+                    <li><a href="#">Shaun White</a></li>
+                    <li><a href="#">Moncler x Palm Angels</a></li>
+                    <li><a href="#">Inter x Moncler</a></li>
+                    <li><a href="#">Nigel Sylvester</a></li>
+                    <li><a href="#">Moncler x adidas Originals</a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#">Moncler x Pharrell</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Одежды</a>
+                <ul class="dropdown1">
+                    <li><h5>ВЕРХНЯЯ ОДЕЖДА</h5></li>
+                    <li><h5>ОБУВЬ</h5></li>
+                    <li><h5>ДЛЯ ЛЫЖНОГО СПОРТА &<br>OUTDOOR</h5></li>
+                    <li><h5>ПОДАРКИ</h5></li>
+                    <li class="item_img1"><img src="img/present.webp" alt="123" class="present"></li>
+                    <li><a href="#">Смотреть всю верхнюю одежду</a></li>
+                    <li><a href="#">Смотреть всю обувь</a></li>
+                    <li><a href="#">Лыжные куртки</a></li>
+                    <li><a href="#">Подарки для Мужчин</a></li>
+                    <li><a href="#">Все пуховики</a></li>
+                    <li><a href="#">Кроссовки</a></li>
+                    <li><a href="#">Лыжные брюки</a></li>
+                    <li><a href="#">Small Gifts</a></li>
+                    <li><a href="#">Длинные пуховики</a></li>
+                    <li><a href="#">Сапоги</a></li>
+                    <li><a href="#">Аксессуары для лыжы</a></li>
+                    <li><a href="#">Персонализированные куртки</a></li>
+                    <li><a href="#">Короткие пуховики</a></li>
+                    <li><a href="#">Сандали и шлепанцы</a></li>
+                    <li><a href="#">Лыжные шлемы</a></li>
+                    <li></li>
+                    <li><a href="#">Жилеты</a></li>
+                    <li></li>
+                    <li></li>
+                    <li><h5>НОВИНКИ</h5></li>
+                    <li><a href="#">Ветровки и плащи</a></li>
+                    <li><h5>АКСЕССУАРЫ</h5></li>
+                    <li></li>
+                    <li><a href="#">Смотреть все новинки</a></li>
+                    <li><a href="#">Пальто и куртки</a></li>
+                    <li><a href="#">Смотреть все аксессуары</a></li>
+                    <li></li>
+                    <li><a href="#">Культовые модели</a></li>
+                    <li><a href="#">Лыжные куртки</a></li>
+                    <li><a href="#">Шляпы и шапки</a></li>
+                    <li></li>
+                    <li><a href="#">Осень-Зима</a></li>
+                    <li></li>
+                    <li><a href="#">Шарфы и перчатки</a></li>
+                    <li></li>
+                    <li></li>
+                    <li><h5>ОДЕЖДА</h5></li>
+                    <li><a href="#">Сумки</a></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#">Смотреть всю одежду</a></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="Clothes.php?cat=Bottom">Низ</a></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="Clothes.php?cat=Top">Верх</a></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#">Поло и футболки</a></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li><a href="#">Джинсы</a></li>
+
+                </ul>
+            </li>
+            <li><a href="#Clothes.php?cat=Shoes">Обувь</a></li>
+            <li><a href="#Clothes.php?cat=Classic">Классика</a></li>
+            <li><a href="#Clothes.php?cat=Deuce">Костюмы</a></li>
+            <li class="space"></li>
+        </ul>
+    </div>
+    <div class="links" th:if="${userName}">
+        <ul style="padding: 0; margin: 0;">
+            <li style="padding-top: 25px; font-family: 'Montserrat';">
+                <a href="" th:if="${userName}" th:text="${userName}"></a>
+                <ul class="dropdown2">
+                    <li><a href="/Profile">Профиль</a></li>
+                    <li><a href="/Login">Выйти</a></li>
+                </ul>
+            </li>
+            <li><a href="fav">
+                <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
+                     width="28px" height="28px" fill="none">
+                    <path stroke="currentColor" stroke-width="1.5"
+                          d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
+                </svg>
+            </a></li>
+            <li><a href="bucket">
+                <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
+                     width="28px" height="28px" fill="none">
+                    <path stroke="currentColor" stroke-width="1.5"
+                          d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"></path>
+                </svg>
+            </a></li>
+        </ul>
+    </div>
+
+    <div class="links" th:if="${userName == null}">
+        <ul>
+            <li><a href="#">О компаний</a></li>
+        </ul>
+    </div>
+    <div class="links" th:if="${userName == null}">
+        <ul>
+            <li><a href="/Login">Login</a></li>
+            <li>|</li>
+            <li><a href="/SignUp">Signup</a></li>
+        </ul>
+    </div>
+</header>
+
+
+
+<div th:if="${NotChanged}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="p" th:text="${passwordNotChanged}"></span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+<div th:if="${passwordChanged}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="p">Пароль успешно изменен!</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 p-5">
+    <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Name</label>
+        <input type="text" class="form-control" id="inputName4"  th:value="${userName}" readonly>
+    </div>
+    <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="inputEmail4" readonly  th:value="${phoneNumber}">
+    </div>
+    <div class="col-6">
+        <label for="inputAddress" class="form-label">Address</label>
+        <input type="text" class="form-control" id="inputAddress" readonly  th:value="${address}">
+    </div>
+    <div class="col-6">
+        <label for="inputAddress2" class="form-label">Birthday</label>
+        <input type="text" class="form-control" id="inputAddress2" readonly  th:value="${birthday}">
+    </div>
+    <div class="col-md-6">
+        <label for="inputCity" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputCity" readonly  th:value="${email}">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_">Change Password</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop_" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/Profile/changePassword" method="post">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Old password</label>
+                            <input type="text" class="form-control" name="oldPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">New password</label>
+                            <input type="text" class="form-control" name="newPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Confirm password</label>
+                            <input type="text" class="form-control" name="confirmPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                        </div>
+                        <input type="hidden" name="id" th:value="${id}">
+                        <button type="submit" class="btn btn-dark">Change</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+
+
+<footer>
+    <div class="first">Наш адрес: <a style="color: white; text-decoration: none;"
+                                     href="https://2gis.kz/almaty/firm/9429940000796151?m=76.871712%2C43.2151%2F16">Жандосова
+        55</a></div>
+    <div></div>
+    <div class="first">ПОМОЩЬ</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="first"></div>
+    <div></div>
+    <div class="second"><a href="" style="color: white; text-decoration: none;">помощь</a></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="icons"><i class='fa fa-instagram'> </i><i class='fa fa-youtube'> </i><i class='fa fa-facebook'></i>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="first"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия использования</a></div>
+    <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия продажи</a></div>
+    <div class="us"><a style="color: white; text-decoration: none;" href="#">О компании</a></div>
+    <div class="second">Казахстан ©Canelli co, Inc.,2023. Все права защищены.</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="con">Конфиденциальность и файлы cookie</div>
+
+</footer>
+<script>
+    function myfunc(){
+        document.getElementsByClassName("error")[0].style.display = "none";
+    }
+    if (performance.navigation.type === 1) {
+        window.location.href = 'profile.php';
+    }
+</script>
+</body>
+</html>

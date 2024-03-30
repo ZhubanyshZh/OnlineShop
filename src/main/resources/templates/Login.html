@@ -375,34 +375,67 @@
     }
 </style>
 <body>
+
+
+<div th:if="${loggedSuccess}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="h3">Вы успешно зарегистрировались</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+<div th:if="${error}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="h3">Произошла ошибка</span>
+        <ul>
+            <li>Извините, нет такого пользователя. Повторите попытку занова.</li>
+        </ul>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+<div th:if="${firstLog}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="h3">Сначала зарегистрировайтесь</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+
 <header>
-<div class="monclerlogo">
-    <a href="HomePage"><img src="img/monclerlogo.webp" alt="Bekassyl" onclick="clicklogo" class="moncler"></a>
-</div>
-<div class="links">
-    <ul>
-        <li><a href="#">О компаний</a></li>
-    </ul>
-</div>
-<div class="links">
-    <ul>
-        <li><a href="Login">Login</a></li>
-        <li>|</li>
-        <li><a href="SignUp">Signup</a></li>
-    </ul>
-</div>
+    <div class="monclerlogo">
+        <a href="HomePage"><img src="img/monclerlogo.webp" alt="Bekassyl" onclick="clicklogo" class="moncler"></a>
+    </div>
+    <div class="links">
+        <ul>
+            <li><a href="#">О компаний</a></li>
+        </ul>
+    </div>
+    <div class="links">
+        <ul>
+            <li><a href="Login">Login</a></li>
+            <li>|</li>
+            <li><a href="SignUp">Signup</a></li>
+        </ul>
+    </div>
 </header>
 
 <div class="body">
-    <form th:method="POST" th:action="@{/Login}" th:object="{user}">
+    <form method="POST" action="/HomePage">
 
         <h2 class="h2">БУДЬ С НАМИ В МОДЕ</h2>
         <h2 class="logo">Men's Shop</h2>
         <p>Создай профиль члена клуба Canelli co. и получи<br> доступ к лучшим товарам Men's Shop, источникам<br>
             вдохновения и общению в сообществе.</p>
         <br><br>
-        <input type="email" name="email" placeholder="Email" required><br><br><br>
-        <input type="password" name="password" placeholder="Password" required><br><br><br><br>
+        <input type="email" name="email" placeholder="Email" th:value="${email}" required><br><br><br>
+        <input type="password" name="password" placeholder="Password" th:value="${password}" required><br><br><br><br>
         <button type="submit">ВОЙТИ</button>
         <p>Еще нет аккаунта? <a href="SignUp">Давай с нами</a></p>
     </form>

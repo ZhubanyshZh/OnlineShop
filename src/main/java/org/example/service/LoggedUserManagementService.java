@@ -1,13 +1,17 @@
-package org.example.dto;
+package org.example.service;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
+@SessionScope
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@Getter
-@Setter
-public class UserDto {
+@Service
+public class LoggedUserManagementService {
     private Long id;
     private String name;
     private String phoneNumber;
@@ -19,4 +23,5 @@ public class UserDto {
     private boolean BirthdayDiscountNotification = false;
     private boolean NewCollectionNotification = false;
     private boolean DiscountNotification = false;
+    private String messageToUser;
 }

@@ -1,20 +1,47 @@
 package org.example.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.repository.ProductRepository;
+import org.example.service.LoggedUserManagementService;
+import org.example.service.ProductService;
+import org.example.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.Map;
+
+@Controller
 @RequestMapping("/HomePage")
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final UserService userService;
+    private final ProductService productService;
+    private final ProductRepository productRepository;
+    private final LoggedUserManagementService loggedUserManagementService;
+
     @GetMapping
     public String getHome(Model model){
-        model.addAttribute("userName", "Beibit");
+        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("userName", loggedUserManagementService.getName());
         return "HomePage";
+    }
+
+//    @ToLogOurApp
+    @RequestMapping(method = RequestMethod.POST)
+    public String authorization(@RequestParam Map<String, String> userDto, Model model){
+        if(userService.checkUser(userDto.get("email"), userDto.get("password"))){
+            model.addAttribute("products", productRepository.findAll());
+            model.addAttribute("userName", loggedUserManagementService.getName());
+
+            return "HomePage";
+        }
+        model.addAttribute("error", true);
+        model.addAttribute("email", userDto.get("email"));
+        model.addAttribute("password", userDto.get("password"));
+
+        return "Login";
     }
 }

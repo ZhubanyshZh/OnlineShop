@@ -39,6 +39,9 @@ public final class User {
     @Column(name = "userPassword")
     private String userPassword;
 
+    @Column(name = "role")
+    private String role;
+
     @Column(name = "BirthdayNotification")
     private boolean BirthdayDiscountNotification;
 
