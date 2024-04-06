@@ -116,7 +116,7 @@ public class ProductService {
         }
     }
 
-    public void getAllBrands(Model model) {фвв
+    public void getAllBrands(Model model) {
         List<String> brands = productRepository.findDistinctProductBrand();
 
         try{
