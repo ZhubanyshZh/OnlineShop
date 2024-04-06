@@ -18,7 +18,7 @@ public class SignUpController {
 
     @GetMapping
     public String getSignUp(){
-        return "SignUp.html";
+        return "SignUp";
     }
 
     @RequestMapping(method = RequestMethod.POST)

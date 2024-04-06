@@ -17,10 +17,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public void getAllProductsToHome(Model model){
+    public void getAllProducts(Model model){
         List<Product> products = productRepository.findAll();
-
-        model.addAttribute("products", products);
+        if(products!=null){
+            model.addAttribute("products", products);
+        }
     }
 
     public boolean addProduct(ProductDto productDto){
@@ -75,5 +76,79 @@ public class ProductService {
         product.setSize(productDto.getSize());
         product.setQuantity(productDto.getQuantity());
         product.setCategory(productDto.getCategory());
+    }
+
+    public void orderByDesc(Model model){
+        List<Product> products = new ArrayList<>();
+        products = productRepository.findByOrderByPriceDesc();
+
+        try{
+            if(products.size() != 0){
+                model.addAttribute("products", products);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void orderByAsc(Model model){
+        List<Product> products = new ArrayList<>();
+        products = productRepository.findByOrderByPriceAsc();
+
+        try{
+            if(products.size() != 0){
+                model.addAttribute("products", products);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllCategories(Model model) {
+        List<String> categories = productRepository.findDistinctCategory();
+
+        try{
+            if(categories.size()!=0){
+                model.addAttribute("categories", categories);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllBrands(Model model) {фвв
+        List<String> brands = productRepository.findDistinctProductBrand();
+
+        try{
+            if(brands.size()!=0){
+                model.addAttribute("brands", brands);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllSizes(Model model){
+        List<String> sizes = productRepository.findDistinctSize();
+
+        try{
+            if(sizes.size()!=0){
+                model.addAttribute("sizes", sizes);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void filer(List<String> categories, List<String> brands, Long minPrice, Long maxPrice, List<String> sizes, Model model){
+        List<Product> products = productRepository.findByFilters(categories, brands, minPrice, maxPrice, sizes);
+
+        try{
+            if(products.size()!=0){
+                model.addAttribute("products", products);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

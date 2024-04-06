@@ -1,14 +1,16 @@
 package org.example.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.ProductDto;
 import org.example.dto.UserDto;
+import org.example.repository.Command;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
-import org.example.service.LoggedUserManagementService;
-import org.example.service.ProductService;
-import org.example.service.UserService;
+import org.example.service.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,79 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/Profile")
+@Setter
 public class ProfileController {
-
     private final LoggedUserManagementService loggedUserManagementService;
+
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductService productService;
     private final UserService userService;
+
+    private Command command;
+
+    @PostMapping("/addProduct")
+    public String addProduct(ProductDto productDto){
+
+        setCommand(new AddProduct(productRepository));
+
+        if(command.execute(productDto)){
+            return "redirect:/Profile?successAdded=true";
+        }else{
+            return "redirect:/Profile?successAdded=false";
+        }
+    }
+//    @PostMapping("/addProduct")
+//    public String addProduct(ProductDto productDto, Model model){
+//
+//        if(productService.addProduct(productDto)){
+//            return "redirect:/Profile?successAdded=true";
+//        }else{
+//            return "redirect:/Profile?successAdded=false";
+//        }
+//    }
+
+    @PostMapping("/deleteProduct")
+    public String deleteProduct(ProductDto productDto){
+        setCommand(new DeleteProduct(productRepository));
+
+        if(command.execute(productDto)){
+            return "redirect:/Profile?successDeleted=true";
+        }else{
+            return "redirect:/Profile?successDeleted=false";
+        }
+    }
+
+//    @PostMapping("/deleteProduct")
+//    public String deleteProduct(ProductDto productDto){
+//
+//        if(productService.deleteProduct(productDto.getId())){
+//            return "redirect:/Profile?successDeleted=true";
+//        }else{
+//            return "redirect:/Profile?successDeleted=false";
+//        }
+//    }
+
+    @PostMapping("/changeProduct")
+    public String changeProduct(ProductDto productDto){
+
+        setCommand(new ChangeProduct(productRepository));
+
+        if(command.execute(productDto)){
+            return "redirect:/Profile?successChanged=true";
+        }else{
+            return "redirect:/Profile?successChanged=false";
+        }
+    }
+//    @PostMapping("/changeProduct")
+//    public String changeProduct(ProductDto productDto){
+//
+//        if(productService.changeProduct(productDto)){
+//            return "redirect:/Profile?successChanged=true";
+//        }else{
+//            return "redirect:/Profile?successChanged=false";
+//        }
+//    }
 
     @GetMapping
     public String getProfile(Model model,
@@ -74,36 +142,6 @@ public class ProfileController {
         }else {
 
             return "redirect:/Login?firstLog=true";
-        }
-    }
-
-    @PostMapping("/addProduct")
-    public String addProduct(ProductDto productDto, Model model){
-
-        if(productService.addProduct(productDto)){
-            return "redirect:/Profile?successAdded=true";
-        }else{
-            return "redirect:/Profile?successAdded=false";
-        }
-    }
-
-    @PostMapping("/deleteProduct")
-    public String deleteProduct(ProductDto productDto){
-
-        if(productService.deleteProduct(productDto.getId())){
-            return "redirect:/Profile?successDeleted=true";
-        }else{
-            return "redirect:/Profile?successDeleted=false";
-        }
-    }
-
-    @PostMapping("/changeProduct")
-    public String changeProduct(ProductDto productDto){
-
-        if(productService.changeProduct(productDto)){
-            return "redirect:/Profile?successChanged=true";
-        }else{
-            return "redirect:/Profile?successChanged=false";
         }
     }
 
