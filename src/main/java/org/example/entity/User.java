@@ -42,12 +42,6 @@ public final class User {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "BirthdayNotification")
-    private boolean BirthdayDiscountNotification;
-
-    @Column(name = "NewCollectionNotification")
-    private boolean NewCollectionNotification;
-
-    @Column(name = "DiscountNotification")
-    private boolean DiscountNotification;
+    @Column(name = "newsNotification")
+    private String newsNotification;
 }

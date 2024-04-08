@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -26,6 +27,12 @@ public class HomeController {
     public String getHome(Model model){
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("userName", loggedUserManagementService.getName());
+        ArrayList<String> linkToHomePageImages = new ArrayList<>();
+        linkToHomePageImages.add("homePageImg.jpg");
+        linkToHomePageImages.add("homePageImg2.jpg");
+        linkToHomePageImages.add("homePageImg3.jpg");
+        linkToHomePageImages.add("homePageImg4.jpg");
+        model.addAttribute("photos", linkToHomePageImages);
         return "HomePage";
     }
 

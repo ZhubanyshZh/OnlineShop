@@ -20,8 +20,6 @@ public class LoggedUserManagementService {
     private String email;
     private String password;
     private String role;
-    private boolean BirthdayDiscountNotification = false;
-    private boolean NewCollectionNotification = false;
-    private boolean DiscountNotification = false;
+    private String NewsNotification;
     private String messageToUser;
 }

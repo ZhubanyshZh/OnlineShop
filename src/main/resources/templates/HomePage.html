@@ -285,7 +285,6 @@
         grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
     }
 </style>
-</style>
 <body>
 
 <!--<#&#45;&#45;<div class="error" style="display: block;" onclick="myfunc()">&ndash;&gt;-->
@@ -320,7 +319,7 @@
 
 <header>
     <div class="monclerlogo">
-        <a href="HomePage"><img src="img/monclerlogo.webp" alt="123" onclick="clicklogo" class="moncler"></a>
+        <a href="HomePage"><img src="img/newLogo1.png" alt="123" onclick="clicklogo" class="moncler"></a>
     </div>
 
     <div class="links" th:if="${userName}">
@@ -433,14 +432,14 @@
                     <li><a href="/Login">Выйти</a></li>
                 </ul>
             </li>
-            <li><a href="fav">
+            <li><a href="/Favorite">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
                           d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
                 </svg>
             </a></li>
-            <li><a href="bucket">
+            <li><a href="/Bucket">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
@@ -463,7 +462,10 @@
         </ul>
     </div>
 </header>
-<img class="photo" src="img/Home.png" alt="123">
+<img class="photo" id="photo" src="img/homePageImg.jpg" alt="123">
+<div style="cursor: pointer; position: absolute; top: 50vh; font-size: 50px" onclick="toLeft()">❰</div>
+<div style="cursor: pointer; position: absolute; top: 50vh; font-size: 50px; left: 99%;" onclick="toRight()">❱</div>
+<a id="imageCats" href="/Clothes?category=Shoes" style="color: white; position: absolute; top: 80vh; left: 95%;">SHOES</a>
 
 <main class="flex-shrink-0">
 
@@ -512,7 +514,7 @@
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-10 col-xl-7">
                     <div class="text-center">
-                        <div class="fs-4 mb-4 fst-italic">"Canelli co - мужской магазин для стильных мужчин. Наша цель -
+                        <div class="fs-4 mb-4 fst-italic">"Men's Shop - мужской магазин для стильных мужчин. Наша цель -
                             дарить людям радость благодаря нашему продукту."
                         </div>
                         <div class="d-flex align-items-center justify-content-center">
@@ -548,7 +550,7 @@
                         <img class="card-img-top" th:src="'img/' + ${product.photo}" alt="...">
                         <div class="card-body p-4">
                             <a class="text-decoration-none link-dark stretched-link"
-                               href="To_more_clothe.php?id=<?= $product->get_id() ?>"><h5 class="card-title mb-3"
+                               th:href="'/More?id=' + ${product.id}"><h5 class="card-title mb-3"
                                                                                           th:text="${product.productName} + ' ' + ${product.price} + ' KZT'"></h5>
                             </a>
                             <p class="card-text mb-0"
@@ -598,7 +600,7 @@
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия использования</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия продажи</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">О компании</a></div>
-    <div class="second">Казахстан ©Canelli co, Inc.,2023. Все права защищены.</div>
+    <div class="second">Казахстан ©Mens Shop, Inc.,2023. Все права защищены.</div>
     <div></div>
     <div></div>
     <div></div>
@@ -618,6 +620,55 @@
 
     if (performance.navigation.type === 1) {
         window.location.href = 'HomePage';
+    }
+
+    let i = 0;
+    function toLeft(){
+        if(i===0){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg4.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes");
+            document.getElementById("imageCats").innerText = "ALL CLOTHES";
+            i=3;
+        } else if(i===1){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Shoes");
+            document.getElementById("imageCats").innerText = "SHOES";
+            i--;
+        } else if(i===2){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg2.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Classic");
+            document.getElementById("imageCats").innerText = "CLASSIC";
+            i--;
+        }else{
+            document.getElementById("photo").setAttribute("src", "img/homePageImg3.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Jeans");
+            document.getElementById("imageCats").innerText = "JEANS";
+            i--;
+        }
+    }
+
+    function toRight(){
+        if(i===0){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg2.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Classic");
+            document.getElementById("imageCats").innerText = "CLASSIC";
+            i++;
+        } else if(i===1){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg3.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Jeans");
+            document.getElementById("imageCats").innerText = "JEANS";
+            i++;
+        } else if(i===2){
+            document.getElementById("photo").setAttribute("src", "img/homePageImg4.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes");
+            document.getElementById("imageCats").innerText = "ALL CLOTHES";
+            i++;
+        }else{
+            document.getElementById("photo").setAttribute("src", "img/homePageImg.jpg");
+            document.getElementById("imageCats").setAttribute("href", "/Clothes?category=Shoes");
+            document.getElementById("imageCats").innerText = "SHOES";
+            i=0;
+        }
     }
 </script>
 </body>

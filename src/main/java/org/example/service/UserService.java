@@ -24,22 +24,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final LoggedUserManagementService loggedUserManagementService;
 
-    public boolean addUser(UserDto userDto, Model model){
+    public boolean addUser(UserDto userDto, Model model) {
 
         List<User> users = userRepository.findAll();
 
         boolean haveAlreadyAccount = users.stream()
                 .anyMatch(user -> user.getEmail().equals(userDto.getEmail()) ||
-                user.getPhoneNumber().equals(userDto.getPhoneNumber()));
+                        user.getPhoneNumber().equals(userDto.getPhoneNumber()));
 
-        if(haveAlreadyAccount) model.addAttribute("alreadyHave", true);
+        if (haveAlreadyAccount) model.addAttribute("alreadyHave", true);
 
-        if(signUpValidation(userDto, model) && !haveAlreadyAccount){
+        if (signUpValidation(userDto, model) && !haveAlreadyAccount) {
             User user = userDtoToUser(userDto);
-            try{
+            try {
                 userRepository.save(user);
                 model.addAttribute("loggedSuccess", true);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 return false;
             }
@@ -48,11 +48,11 @@ public class UserService {
         return false;
     }
 
-    public boolean checkUser(String email, String password){
+    public boolean checkUser(String email, String password) {
         List<User> users = userRepository.findAll();
 
-        for(User u : users){
-            if(u.getEmail().equals(email) && u.getUserPassword().equals(password)){
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.getUserPassword().equals(password)) {
                 loggedUserManagementService.setId(u.getId());
                 loggedUserManagementService.setName(u.getName());
                 loggedUserManagementService.setPhoneNumber(u.getPhoneNumber());
@@ -61,7 +61,8 @@ public class UserService {
                 loggedUserManagementService.setEmail(u.getEmail());
                 loggedUserManagementService.setPassword(u.getUserPassword());
                 loggedUserManagementService.setRole(u.getRole());
-                // also need add something
+                loggedUserManagementService.setNewsNotification(u.getNewsNotification());
+
                 return true;
             }
         }
@@ -69,56 +70,55 @@ public class UserService {
         return false;
     }
 
-    public boolean signUpValidation(UserDto userDto, Model model){
-        String nameError ="", phoneNumError="", birthdayError="", addressError="", emailError="", passwordError = "";
-        if(userDto.getName().isEmpty()){
-            nameError+="name is empty";
+    public boolean signUpValidation(UserDto userDto, Model model) {
+        String nameError = "", phoneNumError = "", birthdayError = "", addressError = "", emailError = "", passwordError = "";
+        if (userDto.getName().isEmpty()) {
+            nameError += "name is empty";
             model.addAttribute("nameError", true);
             model.addAttribute("nameErrorContent", nameError);
-        }else model.addAttribute("name",userDto.getName());
+        } else model.addAttribute("name", userDto.getName());
 
-        if(userDto.getPhoneNumber().isEmpty()){
-            phoneNumError+="phone number is empty";
+        if (userDto.getPhoneNumber().isEmpty()) {
+            phoneNumError += "phone number is empty";
             model.addAttribute("phNumError", true);
             model.addAttribute("phNumErrorContent", phoneNumError);
-        }else model.addAttribute("phoneNum", userDto.getPhoneNumber());
+        } else model.addAttribute("phoneNum", userDto.getPhoneNumber());
 
-        if(userDto.getPhoneNumber().length() != 11 && !userDto.getPhoneNumber().isEmpty()){
-            phoneNumError+="phone number must have 11 nums";
+        if (userDto.getPhoneNumber().length() != 11 && !userDto.getPhoneNumber().isEmpty()) {
+            phoneNumError += "phone number must have 11 nums";
             model.addAttribute("phNumError", true);
             model.addAttribute("phNumErrorContent", phoneNumError);
-        }else model.addAttribute("phoneNum", userDto.getPhoneNumber());
+        } else model.addAttribute("phoneNum", userDto.getPhoneNumber());
 
-        if(userDto.getBirthday().isEmpty()){
-            birthdayError+="birthday is empty";
+        if (userDto.getBirthday().isEmpty()) {
+            birthdayError += "birthday is empty";
             model.addAttribute("birthdayError", true);
             model.addAttribute("birthdayErrorContent", birthdayError);
-        }else model.addAttribute("birthday", userDto.getBirthday());
+        } else model.addAttribute("birthday", userDto.getBirthday());
 
-        if(userDto.getAddress().isEmpty()){
-            addressError+="address is empty";
+        if (userDto.getAddress().isEmpty()) {
+            addressError += "address is empty";
             model.addAttribute("addressError", true);
             model.addAttribute("addressErrorContent", addressError);
-        }else model.addAttribute("address", userDto.getAddress());
+        } else model.addAttribute("address", userDto.getAddress());
 
-        if(userDto.getEmail().isEmpty()){
-            emailError+="email is empty";
+        if (userDto.getEmail().isEmpty()) {
+            emailError += "email is empty";
             model.addAttribute("emailError", true);
             model.addAttribute("emailErrorContent", emailError);
-        }else model.addAttribute("email", userDto.getEmail());
+        } else model.addAttribute("email", userDto.getEmail());
 
-        if(!EmailValidator.getInstance().isValid(userDto.getEmail())){
-            emailError+="email isn't valid";
+        if (!EmailValidator.getInstance().isValid(userDto.getEmail())) {
+            emailError += "email isn't valid";
             model.addAttribute("emailError", true);
             model.addAttribute("emailErrorContent", emailError);
-        }else model.addAttribute("email", userDto.getEmail());
+        } else model.addAttribute("email", userDto.getEmail());
 
-        if(userDto.getPassword().isEmpty()){
-            passwordError+="password is empty";
+        if (userDto.getPassword().isEmpty()) {
+            passwordError += "password is empty";
             model.addAttribute("passwordError", true);
             model.addAttribute("passwordErrorContent", passwordError);
-        }
-        else {
+        } else {
             Pattern pattern = Pattern.compile("[0-9]");
             Matcher matcher1 = pattern.matcher(userDto.getPassword());
 
@@ -131,23 +131,23 @@ public class UserService {
             pattern = Pattern.compile("[.,:;@&%$]");
             Matcher matcher4 = pattern.matcher(userDto.getPassword());
 
-            if(!matcher1.find()) {
+            if (!matcher1.find()) {
                 passwordError += "password must have nums [0-9]";
                 model.addAttribute("passwordError", true);
                 model.addAttribute("passwordErrorContent", passwordError);
-            }else if(!matcher2.find()) {
+            } else if (!matcher2.find()) {
                 passwordError += "Пароль должен содержать буквы A-Z";
                 model.addAttribute("passwordError", true);
                 model.addAttribute("passwordErrorContent", passwordError);
-            }else if(!matcher3.find()) {
+            } else if (!matcher3.find()) {
                 passwordError += "Пароль должен содержать буквы a-z";
                 model.addAttribute("passwordError", true);
                 model.addAttribute("passwordErrorContent", passwordError);
-            }else if(!matcher4.find()) {
+            } else if (!matcher4.find()) {
                 passwordError += "Пароль должен содержать знаки";
                 model.addAttribute("passwordError", true);
                 model.addAttribute("passwordErrorContent", passwordError);
-            }else if(userDto.getPassword().length() <= 8) {
+            } else if (userDto.getPassword().length() <= 8) {
                 passwordError += "Пароль должен содержать 8 символов";
                 model.addAttribute("passwordError", true);
                 model.addAttribute("passwordErrorContent", passwordError);
@@ -156,18 +156,18 @@ public class UserService {
             model.addAttribute("password", userDto.getPassword());
         }
 
-        if(nameError.isEmpty() &&
+        if (nameError.isEmpty() &&
                 phoneNumError.isEmpty() &&
                 birthdayError.isEmpty() &&
                 addressError.isEmpty()
                 && emailError.isEmpty() &&
                 passwordError.isEmpty()
-        ){
+        ) {
             return true;
-        }else return false;
+        } else return false;
     }
 
-    public User userDtoToUser(UserDto userDto){
+    public User userDtoToUser(UserDto userDto) {
         User user = new User();
 
         user.setName(userDto.getName().trim());
@@ -177,14 +177,15 @@ public class UserService {
         user.setEmail(userDto.getEmail().trim());
         user.setUserPassword(userDto.getPassword().trim());
         user.setRole("user");
+        user.setNewsNotification("false");
 
         return user;
     }
 
-    public boolean deleteUser(Long id){
-        try{
+    public boolean deleteUser(Long id) {
+        try {
             userRepository.deleteById(id);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return false;
         }
@@ -198,7 +199,7 @@ public class UserService {
 
             setUserDtoToUser(user, userDto);
             userRepository.save(user);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return false;
         }
@@ -216,7 +217,7 @@ public class UserService {
 
         Optional<User> optionalUser = userRepository.findById(changePasswordDto.getId());
         User user = optionalUser.get();
-        if(!user.getUserPassword().equals(changePasswordDto.getOldPassword())){
+        if (!user.getUserPassword().equals(changePasswordDto.getOldPassword())) {
             loggedUserManagementService.setMessageToUser("Old password not confirm!");
             return false;
         }
@@ -233,36 +234,56 @@ public class UserService {
         pattern = Pattern.compile("[.,:;@&%$]");
         Matcher matcher4 = pattern.matcher(changePasswordDto.getNewPassword());
 
-        if(!matcher1.find()) {
+        if (!matcher1.find()) {
             loggedUserManagementService.setMessageToUser("password must have nums [0-9]");
             return false;
         }
-        if(!matcher2.find()) {
+        if (!matcher2.find()) {
             loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы A-Z");
             return false;
         }
-        if(!matcher3.find()) {
+        if (!matcher3.find()) {
             loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы a-z");
             return false;
         }
-        if(!matcher4.find()) {
+        if (!matcher4.find()) {
             loggedUserManagementService.setMessageToUser("Пароль должен содержать знаки");
             return false;
         }
-        if(changePasswordDto.getNewPassword().length() <= 8) {
+        if (changePasswordDto.getNewPassword().length() <= 8) {
             loggedUserManagementService.setMessageToUser("Пароль должен содержать 8 символов");
             return false;
         }
 
-        if(!changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword())){
+        if (!changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword())) {
             loggedUserManagementService.setMessageToUser("Новые пароли не совпадает!");
             return false;
         }
 
-        try{
+        try {
             user.setUserPassword(changePasswordDto.getNewPassword());
             userRepository.save(user);
-        }catch (Exception ex){
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean changeNotify(UserDto userDto){
+        User user = userRepository.findById(loggedUserManagementService.getId()).get();
+
+        if(userDto.getNewsNotification() == null){
+            user.setNewsNotification("false");
+            loggedUserManagementService.setNewsNotification("false");
+        }else {
+            user.setNewsNotification("true");
+            loggedUserManagementService.setNewsNotification("true");
+        }
+
+        try{
+            userRepository.save(user);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
         return true;

@@ -5,8 +5,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Getter
-@Setter
+@Data
 public class UserDto {
     private Long id;
     private String name;
@@ -16,7 +15,5 @@ public class UserDto {
     private String email;
     private String password;
     private String role;
-    private boolean BirthdayDiscountNotification = false;
-    private boolean NewCollectionNotification = false;
-    private boolean DiscountNotification = false;
+    private String NewsNotification;
 }

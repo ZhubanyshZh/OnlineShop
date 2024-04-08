@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Men's Shop - More about clothe</title>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="https://fonts.cdnfonts.com/css/bebas-neue" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
 </head>
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link href="https://fonts.cdnfonts.com/css/bebas-neue" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <style>
     img.photo {
         height: auto;
@@ -32,7 +42,7 @@
         height: 80px;
         transition: 0.5s;
         width: 100%;
-        background-color: black;
+        background: black;
     }
 
     header:hover {
@@ -279,56 +289,9 @@
         display: grid;
         grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
     }
-    .error{
-        background-color: rgba(0,0,0,0.5);
-        bottom: 0;
-        left: 0;
-        max-width: 100%;
-        position: fixed;
-        right: 0;
-        top: 0;
-        z-index: 500;
-    }
-    .error-panel {
-        background-color: #fff;
-        background-size: 90px;
-        border-radius: 10px;
-        box-sizing: border-box;
-        left: inherit;
-        margin: auto;
-        max-width: 540px;
-        padding: 30px 20px;
-        position: absolute;
-        right: inherit;
-        text-align: center;
-        margin-top: 15px;
-    }
-    .h3{
-        font-size: 24px;
-        font-weight: bold;
-        font-family: 'Arial';
-    }
-    .error-panel ul{
-        list-style-type: none;
-    }
-    .error-panel .error-close input{
-        background: black;
-        color: white;
-        font-family: 'Montserrat';
-        padding: 0 16px;
-        width: 100%;
-        height: 40px;
-        padding-left: 16px;
-        border-radius: 3px;
-        border: 1px solid;
-        box-sizing: border-box;
-        line-height: 17px;
-    }
-    .error-panel .error-close input:hover{
-        cursor: pointer;
-    }
 </style>
 <body>
+
 <header>
     <div class="monclerlogo">
         <a href="HomePage"><img src="img/newLogo1.png" alt="123" onclick="clicklogo" class="moncler"></a>
@@ -475,94 +438,95 @@
     </div>
 </header>
 
-
-
-<div th:if="${NotChanged}" class="error" style="display: block;" onclick="myfunc()">
-    <div class="error-panel">
-        <span class="p" th:text="${passwordNotChanged}"></span>
-        <div class="error-close">
-            <input type="button" value="Закрыть сообщение">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <article>
+                <figure class="mb-4"><img class="img-fluid rounded" th:src="'img/' + ${product.photo}" style="height: 700px;"
+                                          alt="..."></figure>
+            </article>
+<!--            <section class="mb-5">-->
+<!--                <div class="card bg-light">-->
+<!--                    <div class="card-body">-->
+<!--                        &lt;!&ndash; Comment form&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <form class="mb-4" action="/More/" method="post">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!" name="desc" required></textarea>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <button type="submit" class="btn btn-secondary mt-2">Отправить</button>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <input type="hidden" name="p_id" value="<?=$_GET['id']?>">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </form>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <?php&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    $feedback = $db->get_feedback($_GET['id']);&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        foreach($feedback as $f){&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        ?>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        &lt;!&ndash; Comment with nested comments&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <div class="d-flex mb-4">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            &lt;!&ndash; Parent comment&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <div class="ms-3">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <div class="fw-bold"><?= $f['client_name'] ?></div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <?= $f['feedback_desc'] ?>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <?php } ?>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
         </div>
-    </div>
-</div>
 
-<div th:if="${passwordChanged}" class="error" style="display: block;" onclick="myfunc()">
-    <div class="error-panel">
-        <span class="p">Пароль успешно изменен!</span>
-        <div class="error-close">
-            <input type="button" value="Закрыть сообщение">
-        </div>
-    </div>
-</div>
-
-<div class="row g-3 p-5">
-    <div class="col-md-6">
-        <label for="inputEmail4" class="form-label">Name</label>
-        <input type="text" class="form-control" id="inputName4"  th:value="${userName}" readonly>
-    </div>
-    <div class="col-md-6">
-        <label for="inputEmail4" class="form-label">Phone Number</label>
-        <input type="text" class="form-control" id="inputEmail4" readonly  th:value="${phoneNumber}">
-    </div>
-    <div class="col-6">
-        <label for="inputAddress" class="form-label">Address</label>
-        <input type="text" class="form-control" id="inputAddress" readonly  th:value="${address}">
-    </div>
-    <div class="col-6">
-        <label for="inputAddress2" class="form-label">Birthday</label>
-        <input type="text" class="form-control" id="inputAddress2" readonly  th:value="${birthday}">
-    </div>
-    <div class="col-md-6">
-        <label for="inputCity" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputCity" readonly  th:value="${email}">
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_">Change Password</button>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop_" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <div class="card mb-4">
+                <div class="card-header" th:text="'Brand: '+${product.productBrand}"><h5 class="card-title mb-3"
+                                                                               th:text="${product.productName} + ' ' + ${product.price} + ' KZT '"></h5>
                 </div>
-                <div class="modal-body">
-                    <form action="/Profile/changePassword" method="post">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Old password</label>
-                            <input type="text" class="form-control" name="oldPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">New password</label>
-                            <input type="text" class="form-control" name="newPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Confirm password</label>
-                            <input type="text" class="form-control" name="confirmPassword" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                        </div>
-                        <input type="hidden" name="id" th:value="${id}">
-                        <button type="submit" class="btn btn-dark">Change</button>
+                <div class="card-body">
+                    <p class="card-text mb-0">Это стильная и удобная мужская одежда, созданная для комфорта и
+                        элегантности в повседневной жизни.</p>
+                    <p class="card-text mb-0" th:text="'Размер: ' + ${product.size}"></p>
+                </div>
+            </div>
+            <!-- Side widget-->
+            <div class="card mb-4">
+                <div class="card-body" style="display: flex; justify-content: space-around;">
+
+                    <form action="/Bucket" method="get" th:if="${isProductInTheBucket == true}">
+                        <button type="submit" class="btn btn-danger">Перейти в корзину 🛒</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    <a th:href="'/Bucket/addProductToBucket?id=' + ${product.id}" class="btn btn-secondary" th:if="${isProductInTheBucket == false}">Добавить
+                        в корзину 🛒</a>
+
+                    <button class="btn btn-danger"> Оформить сейчас</button>
+
+                    <form th:if="${isInFavorite == false}" action="/Favorite/addToFavorite" method="get">
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <button class="btn btn-dark" id="dark">
+                            <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24"
+                                 role="img" width="15px" height="15px" fill="none">
+                                <path stroke="currentColor" stroke-width="1.5"
+                                      d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <form th:if="${isInFavorite == true}" action="/Favorite/deleteFavorite" method="get">
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <button class="btn btn-danger" id="red">
+                            <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24"
+                                 role="img" width="15px" height="15px" fill="none">
+                                <path stroke="currentColor" stroke-width="1.5"
+                                      d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal -->
 </div>
-
-<form action="/Profile/changeNotify" method="post" style="margin: 50px">
-    <div class="form-check form-switch mb-3">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault1" name="newsNotification" th:checked="${newsNotify=='true'}">
-        <label class="form-check-label" for="flexSwitchCheckDefault1">notify me about news</label>
-    </div>
-
-    <button class="btn btn-secondary">Save</button>
-</form>
-
 
 
 <footer>
@@ -609,13 +573,33 @@
     <div class="con">Конфиденциальность и файлы cookie</div>
 
 </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/scripts.js"></script>
 <script>
-    function myfunc(){
-        document.getElementsByClassName("error")[0].style.display = "none";
-    }
-    if (performance.navigation.type === 1) {
-        window.location.href = '/Profile';
-    }
+    // function darkclick() {
+    //
+    //     document.getElementById("dark").classList.remove("btn-dark");
+    //     document.getElementById("dark").classList.add("btn-danger");
+    // }
+    //
+    // function redclick() {
+    //
+    //     document.getElementById("red").classList.remove("btn-danger");
+    //     document.getElementById("red").classList.add("btn-dark");
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open("GET", "del_fav.php?id=<?php echo $_GET['id']; ?>&client_id=<?php echo $_SESSION['client_id']; ?>", true);
+    //     xhr.onload = function () {
+    //         if (xhr.status === 200) {
+    //             // Успешный запрос - обновляем страницу
+    //             location.reload();
+    //         } else {
+    //             console.error("Ошибка запроса");
+    //         }
+    //     };
+    //     xhr.send();
+    // }
 </script>
 </body>
 </html>

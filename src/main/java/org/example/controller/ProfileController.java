@@ -3,6 +3,8 @@ package org.example.controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.example.domain.model.Bucket;
+import org.example.dto.BucketDto;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.ProductDto;
 import org.example.dto.UserDto;
@@ -21,84 +23,52 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/Profile")
 @Setter
 public class ProfileController {
-    private final LoggedUserManagementService loggedUserManagementService;
 
+    private final LoggedUserManagementService loggedUserManagementService;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductService productService;
     private final UserService userService;
 
-    private Command command;
-
     @PostMapping("/addProduct")
-    public String addProduct(ProductDto productDto){
+    public String addProduct(ProductDto productDto, Model model){
 
-        setCommand(new AddProduct(productRepository));
-
-        if(command.execute(productDto)){
+        if(productService.addProduct(productDto)){
             return "redirect:/Profile?successAdded=true";
         }else{
             return "redirect:/Profile?successAdded=false";
         }
     }
-//    @PostMapping("/addProduct")
-//    public String addProduct(ProductDto productDto, Model model){
-//
-//        if(productService.addProduct(productDto)){
-//            return "redirect:/Profile?successAdded=true";
-//        }else{
-//            return "redirect:/Profile?successAdded=false";
-//        }
-//    }
+
+
 
     @PostMapping("/deleteProduct")
     public String deleteProduct(ProductDto productDto){
-        setCommand(new DeleteProduct(productRepository));
 
-        if(command.execute(productDto)){
+        if(productService.deleteProduct(productDto.getId())){
             return "redirect:/Profile?successDeleted=true";
         }else{
             return "redirect:/Profile?successDeleted=false";
         }
     }
 
-//    @PostMapping("/deleteProduct")
-//    public String deleteProduct(ProductDto productDto){
-//
-//        if(productService.deleteProduct(productDto.getId())){
-//            return "redirect:/Profile?successDeleted=true";
-//        }else{
-//            return "redirect:/Profile?successDeleted=false";
-//        }
-//    }
-
     @PostMapping("/changeProduct")
     public String changeProduct(ProductDto productDto){
 
-        setCommand(new ChangeProduct(productRepository));
-
-        if(command.execute(productDto)){
+        if(productService.changeProduct(productDto)){
             return "redirect:/Profile?successChanged=true";
         }else{
             return "redirect:/Profile?successChanged=false";
         }
     }
-//    @PostMapping("/changeProduct")
-//    public String changeProduct(ProductDto productDto){
-//
-//        if(productService.changeProduct(productDto)){
-//            return "redirect:/Profile?successChanged=true";
-//        }else{
-//            return "redirect:/Profile?successChanged=false";
-//        }
-//    }
 
     @GetMapping
     public String getProfile(Model model,
                              @RequestParam(name = "successAdded", required = false) String successAdded,
                              @RequestParam(name = "successDeleted", required = false) String successDeleted,
                              @RequestParam(name = "successChanged", required = false) String successChanged,
-                             @RequestParam(name = "passwordChanged" ,required = false) String passwordChanged
+                             @RequestParam(name = "passwordChanged" ,required = false) String passwordChanged,
+                             @RequestParam(name = "notify", required = false) String notify
     ){
         if(loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("admin")){
             model.addAttribute("role", loggedUserManagementService.getRole());
@@ -119,10 +89,14 @@ public class ProfileController {
                 model.addAttribute("changed", true);
             } else if (successChanged != null && successChanged.equals("false")) {
                 model.addAttribute("notChanged", true);
+            } else if (notify != null && notify.equals("true")) {
+                model.addAttribute("notify", true);
+            } else if (notify != null && notify.equals("false")) {
+                model.addAttribute("notnotify", false);
             }
 
             return "AdminProfile";
-        }else if (loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("user")){
+        } else if (loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("user")){
             model.addAttribute("userName", loggedUserManagementService.getName());
             model.addAttribute("address", loggedUserManagementService.getAddress());
             model.addAttribute("email", loggedUserManagementService.getEmail());
@@ -130,6 +104,7 @@ public class ProfileController {
             model.addAttribute("birthday", loggedUserManagementService.getBirthday());
             model.addAttribute("role", loggedUserManagementService.getRole());
             model.addAttribute("id", loggedUserManagementService.getId());
+            model.addAttribute("newsNotify", loggedUserManagementService.getNewsNotification());
 
             if(passwordChanged!=null && passwordChanged.equals("true")){
                 model.addAttribute("passwordChanged", true);
@@ -139,7 +114,7 @@ public class ProfileController {
             }
 
             return "userProfile";
-        }else {
+        } else {
 
             return "redirect:/Login?firstLog=true";
         }
@@ -174,4 +149,12 @@ public class ProfileController {
         return "redirect:/Profile?passwordChanged=false";
     }
 
+
+    @PostMapping("/changeNotify")
+    public String changeNotify(UserDto userDto){
+        if(userService.changeNotify(userDto)){
+            return "redirect:/Profile?notifyChanged=true";
+        }
+        return "redirect:/Profile?notifyChanged=false";
+    }
 }

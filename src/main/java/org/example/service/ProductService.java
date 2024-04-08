@@ -17,6 +17,14 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    public void getProductById(Long id, Model model){
+        try{
+            model.addAttribute("product", productRepository.findById(id).get());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void getAllProducts(Model model){
         List<Product> products = productRepository.findAll();
         if(products!=null){
@@ -79,8 +87,7 @@ public class ProductService {
     }
 
     public void orderByDesc(Model model){
-        List<Product> products = new ArrayList<>();
-        products = productRepository.findByOrderByPriceDesc();
+        List<Product> products = productRepository.findByOrderByPriceDesc();
 
         try{
             if(products.size() != 0){
@@ -92,8 +99,7 @@ public class ProductService {
     }
 
     public void orderByAsc(Model model){
-        List<Product> products = new ArrayList<>();
-        products = productRepository.findByOrderByPriceAsc();
+        List<Product> products = productRepository.findByOrderByPriceAsc();
 
         try{
             if(products.size() != 0){
@@ -116,7 +122,7 @@ public class ProductService {
         }
     }
 
-    public void getAllBrands(Model model) {фвв
+    public void getAllBrands(Model model) {
         List<String> brands = productRepository.findDistinctProductBrand();
 
         try{

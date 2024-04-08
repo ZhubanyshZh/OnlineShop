@@ -399,9 +399,29 @@
     </div>
 </div>
 
+<div class="error" style="display: block;" onclick="myfunc()" th:if="${notify}">
+    <div class="error-panel">
+        <span class="h3">Успешно отправлен</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+
+<div class="error" style="display: block;" onclick="myfunc()" th:if="${notnotify}">
+    <div class="error-panel">
+        <span class="h3">Ошибка</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
+
+
 <header>
     <div class="monclerlogo">
-        <a href="HomePage"><img src="img/monclerlogo.webp" alt="123" onclick="clicklogo" class="moncler"></a>
+        <a href="HomePage"><img src="img/newLogo1.png" alt="123" onclick="clicklogo" class="moncler"></a>
     </div>
 
     <div class="links" th:if="${userName}">
@@ -514,14 +534,14 @@
                     <li><a href="/Login">Выйти</a></li>
                 </ul>
             </li>
-            <li><a href="fav">
+            <li><a href="/Favorite">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
                           d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
                 </svg>
             </a></li>
-            <li><a href="bucket">
+            <li><a href="/Bucket">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
@@ -545,6 +565,8 @@
     </div>
 </header>
 
+
+
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
@@ -552,6 +574,35 @@
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Administration</li>
             </ol>
+            <button data-bs-toggle="modal" class="btn btn-dark mb-3" data-bs-target="#newsNotify">Notify user about news</button>
+            <!-- Modal -->
+            <div class="modal fade" id="newsNotify" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Label">Notify users about news with email</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Notification/newsNotificationWithEmail" method="post">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">HEADER</label>
+                                    <input type="text" class="form-control" name="header" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">CONTENT</label>
+                                    <input type="text" class="form-control" name="content" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                </div>
+                                <button type="submit" class="btn btn-dark">Notify</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
             <div class="card mb-4">
                 <div class="card-header">
                     <svg class="svg-inline--fa fa-table me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M64 256V160H224v96H64zm0 64H224v96H64V320zm224 96V320H448v96H288zM448 256H288V160H448v96zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"></path></svg><!-- <i class="fas fa-table me-1"></i> Font Awesome fontawesome.com -->
@@ -830,7 +881,7 @@
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия использования</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия продажи</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">О компании</a></div>
-    <div class="second">Казахстан ©Canelli co, Inc.,2023. Все права защищены.</div>
+    <div class="second">Казахстан ©Mens Shop, Inc.,2023. Все права защищены.</div>
     <div></div>
     <div></div>
     <div></div>

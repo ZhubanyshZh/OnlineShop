@@ -280,7 +280,7 @@
 <body>
 <header>
     <div class="monclerlogo">
-        <a href="HomePage"><img src="img/monclerlogo.webp" alt="123" onclick="clicklogo" class="moncler"></a>
+        <a href="HomePage"><img src="img/newLogo1.png" alt="123" onclick="clicklogo" class="moncler"></a>
     </div>
 
     <div class="links" th:if="${userName}">
@@ -393,14 +393,14 @@
                     <li><a href="/Login">Выйти</a></li>
                 </ul>
             </li>
-            <li><a href="fav">
+            <li><a href="/Favorite">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
                           d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"></path>
                 </svg>
             </a></li>
-            <li><a href="bucket">
+            <li><a href="/Bucket">
                 <svg aria-hidden="true" class="pre-nav-design-icon" focusable="false" viewBox="0 0 24 24" role="img"
                      width="28px" height="28px" fill="none">
                     <path stroke="currentColor" stroke-width="1.5"
@@ -523,7 +523,7 @@
                     <img class="card-img-top" th:src="'img/' + ${product.photo}" alt="...">
                     <div class="card-body p-4">
                         <a class="text-decoration-none link-dark stretched-link"
-                           href="'To_more_clothe.php?id=' + ${product.id}"><h5
+                           th:href="'/More?id=' + ${product.id}"><h5
                                 class="card-title mb-3"
                                 th:text="${product.productName} + ' ' + ${product.price} + ' KZT'"></h5>
                         </a>
@@ -676,7 +676,7 @@
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия использования</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">Условия продажи</a></div>
     <div class="us"><a style="color: white; text-decoration: none;" href="#">О компании</a></div>
-    <div class="second">Казахстан ©Canelli co, Inc.,2023. Все права защищены.</div>
+    <div class="second">Казахстан ©Mens Shop co, Inc.,2023. Все права защищены.</div>
     <div></div>
     <div></div>
     <div></div>

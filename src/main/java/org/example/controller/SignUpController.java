@@ -17,45 +17,17 @@ public class SignUpController {
     private final UserService userService;
 
     @GetMapping
-    public String getSignUp(){
+    public String getSignUp(Model model){
         return "SignUp";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String addUser(@RequestParam Map<String, String> map, Model model){
+    @PostMapping
+    public String addUser(UserDto userDto, Model model){
 
-        if(userService.addUser(mapToUserDto(map), model)){
-            return "Login.html";
+        if(!userService.addUser(userDto, model)){
+            return getSignUp(model);
         }else{
-            return "SignUp.html";
+            return "redirect:/Login";
         }
     }
-
-    public UserDto mapToUserDto(Map<String, String> map){
-        UserDto newUserDto = new UserDto();
-        newUserDto.setName(map.get("name"));
-        newUserDto.setPhoneNumber(map.get("phoneNumber"));
-        newUserDto.setBirthday(map.get("birthday"));
-        newUserDto.setAddress(map.get("address"));
-        newUserDto.setEmail(map.get("email"));
-        newUserDto.setPassword(map.get("password"));
-
-        return newUserDto;
-    }
-
-//    @PostMapping("/add&deleteUser")
-//    public String addListOfUsers(@RequestBody List<UserDto> userDtoList){
-//        List<Thread> threads = new ArrayList<>();
-//
-//        threads.add(new Thread(() -> userService.addUser(userDtoList.get(0))));
-//        threads.add(new Thread(() -> userService.addUser(userDtoList.get(1))));
-//        threads.add(new Thread(() -> userService.deleteUser(userDtoList.get(2))));
-//        threads.add(new Thread(() -> userService.deleteUser(userDtoList.get(3))));
-//
-//        for(Thread t: threads){
-//            t.start();
-//        }
-//
-//        return "Login";
-//    }
 }
