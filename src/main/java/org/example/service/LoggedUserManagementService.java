@@ -22,4 +22,5 @@ public class LoggedUserManagementService {
     private String role;
     private String NewsNotification;
     private String messageToUser;
+    private Long CodeToConfirmEmail;
 }

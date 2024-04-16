@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "ms_product")
-public class Product {
+public class Product implements CustomEntity{
 
     @Id
     @GeneratedValue

@@ -1,7 +1,8 @@
 package org.example.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.aspect.ToLogOurApp;
+import org.example.dto.UserDto;
 import org.example.repository.ProductRepository;
 import org.example.service.LoggedUserManagementService;
 import org.example.service.ProductService;
@@ -11,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/HomePage")
@@ -36,18 +36,15 @@ public class HomeController {
         return "HomePage";
     }
 
-//    @ToLogOurApp
-    @RequestMapping(method = RequestMethod.POST)
-    public String authorization(@RequestParam Map<String, String> userDto, Model model){
-        if(userService.checkUser(userDto.get("email"), userDto.get("password"))){
-            model.addAttribute("products", productRepository.findAll());
-            model.addAttribute("userName", loggedUserManagementService.getName());
-
+    @ToLogOurApp
+    @PostMapping
+    public String checkUser(UserDto userDto, Model model){
+        if(userService.checkUser(userDto.getEmail(), userDto.getPassword(), model)){
             return "HomePage";
         }
         model.addAttribute("error", true);
-        model.addAttribute("email", userDto.get("email"));
-        model.addAttribute("password", userDto.get("password"));
+        model.addAttribute("email", userDto.getEmail());
+        model.addAttribute("password", userDto.getPassword());
 
         return "Login";
     }

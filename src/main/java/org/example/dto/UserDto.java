@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Data
-public class UserDto {
+public class UserDto implements DTO{
     private Long id;
     private String name;
     private String phoneNumber;

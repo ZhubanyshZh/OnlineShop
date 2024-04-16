@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Canelli co. - login</title>
+    <title>Men's Shop - login</title>
 </head>
 <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 <link href="https://fonts.cdnfonts.com/css/bebas-neue" rel="stylesheet">
@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
       crossorigin="anonymous" referrerpolicy="no-referrer"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <style>
     @import url('https://fonts.cdnfonts.com/css/bebas-neue');
@@ -374,6 +375,23 @@
         font-size: 20px;
         font-family: 'Montserrat';
     }
+    .password-toggle-icon {
+        position: relative;
+        bottom: 30px;
+        cursor: pointer;
+        left: 185px;
+    }
+
+    .password-toggle-icon i {
+        font-size: 18px;
+        line-height: 1;
+        color: grey;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .password-toggle-icon i:hover {
+        color: #000;
+    }
 </style>
 <body>
 
@@ -408,6 +426,14 @@
     </div>
 </div>
 
+<div th:if="${successChanged}" class="error" style="display: block;" onclick="myfunc()">
+    <div class="error-panel">
+        <span class="h3">Успешно изменен</span>
+        <div class="error-close">
+            <input type="button" value="Закрыть сообщение">
+        </div>
+    </div>
+</div>
 
 <header>
     <div class="monclerlogo">
@@ -432,11 +458,14 @@
 
         <h2 class="h2">БУДЬ С НАМИ В МОДЕ</h2>
         <h2 class="logo">Men's Shop</h2>
-        <p>Создай профиль члена клуба Canelli co. и получи<br> доступ к лучшим товарам Men's Shop, источникам<br>
+        <p>Создай профиль члена клуба Men's Shop и получи<br> доступ к лучшим товарам Men's Shop, источникам<br>
             вдохновения и общению в сообществе.</p>
         <br><br>
         <input type="email" name="email" placeholder="Email" th:value="${email}" required><br><br><br>
-        <input type="password" name="password" placeholder="Password" th:value="${password}" required><br><br><br><br>
+        <input type="password" name="password" id="password" placeholder="Password" th:value="${password}" required>
+        <span class="password-toggle-icon"><i class="fa fa-eye"></i></span>
+        <p style="margin-top: -10px">Забыли пароль? <a href="/Login/ConfirmEmailToChangePassword">Восстановить</a></p>
+        <br>
         <button type="submit">ВОЙТИ</button>
         <p>Еще нет аккаунта? <a href="SignUp">Давай с нами</a></p>
     </form>
@@ -449,6 +478,21 @@
     if (performance.navigation.type === 1) {
         window.location.href = 'Login';
     }
+
+    const passwordField = document.getElementById("password");
+    const togglePassword = document.querySelector(".password-toggle-icon i");
+
+    togglePassword.addEventListener("click", function () {
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            togglePassword.classList.remove("fa-eye-slash");
+            togglePassword.classList.add("fa-eye");
+        }
+    });
 </script>
 </body>
 </html>

@@ -1,27 +1,56 @@
 package org.example.service;
 
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.dto.DTO;
 import org.example.dto.ProductDto;
+import org.example.dto.UserDto;
+import org.example.entity.CustomEntity;
 import org.example.entity.Product;
 import org.example.repository.ProductRepository;
+import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class ProductService {
+public class ProductService extends MyService {
 
-    private final ProductRepository productRepository;
+    private static final JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+    private ObjectMapper mapper = new ObjectMapper();
+    public ProductService(ProductRepository productRepository, UserRepository userRepository, LoggedUserManagementService loggedUserManagementService) {
+        super(productRepository, userRepository, loggedUserManagementService);
+    }
 
-    public void getProductById(Long id, Model model){
-        try{
-            model.addAttribute("product", productRepository.findById(id).get());
-        }catch (Exception e){
+    public void getCachedProductById(Long id, Model model){
+        Product product = new Product();
+        try(Jedis jedis = jedisPool.getResource()) {
+            String key = "product:%d".formatted(id);
+            String raw = jedis.get(key);
+            if(raw != null){
+                model.addAttribute("product", mapper.readValue(raw, Product.class));
+            }else{
+                product = productRepository.findById(id).get();
+                model.addAttribute("product", product);
+                jedis.setex(key, 60L, mapper.writeValueAsString(product));
+            }
+
+        }catch (JsonParseException e){
             System.out.println(e.getMessage());
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -32,42 +61,54 @@ public class ProductService {
         }
     }
 
-    public boolean addProduct(ProductDto productDto){
-        Product product = productDtoToEntity(productDto);
+    public void getCachedAllProducts(Model model){
+        try(Jedis jedis = jedisPool.getResource()){
+            List<Product> products = new ArrayList<>();
+            String key = "products";
+            List<Product> products1 = jedis.lrange(key, 0, -1).stream()
+                    .map(p -> {
+                        try{
+                            return mapper.readValue(p, Product.class);
+                        } catch (JsonMappingException e) {
+                            throw new RuntimeException(e);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).collect(Collectors.toList());
+            if(products1.size() != 0){
+                model.addAttribute("products", products1);
+            }else{
+                products = productRepository.findAll();
+                if(products!=null){
+                    model.addAttribute("products", products);
 
-        try {
-            productRepository.save(product);
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return false;
+                    products.stream()
+                            .map(product -> {
+                                try {
+                                    return mapper.writeValueAsString(product);
+                                } catch (JsonProcessingException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }).forEach(p -> jedis.rpush(key, p));
+                    jedis.expire(key, 300L);
+                }
+            }
         }
-
-        return true;
     }
 
-    private Product productDtoToEntity(ProductDto productDto) {
+    @Override
+    protected CustomEntity dtoToEntity(DTO dto) {
         Product product = new Product();
 
-        setProductDtoToProduct(product, productDto);
+        setProductDtoToProduct(product, (ProductDto) dto);
 
         return product;
-    }
-
-    public boolean deleteProduct(Long id) {
-        try{
-            productRepository.deleteById(id);
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return false;
-        }
-        return true;
     }
 
     public boolean changeProduct(ProductDto productDto) {
 
         try{
-            Optional<Product> optionalProduct = productRepository.findById(productDto.getId());
-            Product product = optionalProduct.get();
+            Product product = productRepository.findById(productDto.getId()).get();
 
             setProductDtoToProduct(product, productDto);
             productRepository.save(product);
@@ -157,4 +198,36 @@ public class ProductService {
             System.out.println(e.getMessage());
         }
     }
+
+
+
+    //    private Product dtoToEntity(ProductDto productDto) {
+//        Product product = new Product();
+//
+//        setProductDtoToProduct(product, productDto);
+//
+//        return product;
+//    }
+
+//    public boolean deleteProduct(Long id) {
+//        try{
+//            productRepository.deleteById(id);
+//        }catch (Exception ex){
+//            System.out.println(ex.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
+    //    public boolean addProduct(ProductDto productDto){
+//        Product product = (Product) dtoToEntity(productDto);
+//
+//        try {
+//            productRepository.save(product);
+//        }catch (Exception ex){
+//            System.out.println(ex.getMessage());
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }

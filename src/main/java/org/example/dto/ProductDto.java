@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ProductDto {
+public class ProductDto implements DTO{
     private Long id;
     private String name;
     private String brand;

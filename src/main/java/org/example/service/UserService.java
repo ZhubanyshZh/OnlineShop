@@ -1,16 +1,15 @@
 package org.example.service;
 
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.example.dto.ChangePasswordDto;
+import org.example.dto.DTO;
+import org.example.entity.CustomEntity;
 import org.example.entity.User;
 import org.example.dto.UserDto;
-import org.example.repository.SingletonUserRepository;
+import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,37 +17,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@RequiredArgsConstructor
-public class UserService {
+public class UserService extends MyService {
 
-    private final UserRepository userRepository;
-    private final LoggedUserManagementService loggedUserManagementService;
-
-    public boolean addUser(UserDto userDto, Model model) {
-
-        List<User> users = userRepository.findAll();
-
-        boolean haveAlreadyAccount = users.stream()
-                .anyMatch(user -> user.getEmail().equals(userDto.getEmail()) ||
-                        user.getPhoneNumber().equals(userDto.getPhoneNumber()));
-
-        if (haveAlreadyAccount) model.addAttribute("alreadyHave", true);
-
-        if (signUpValidation(userDto, model) && !haveAlreadyAccount) {
-            User user = userDtoToUser(userDto);
-            try {
-                userRepository.save(user);
-                model.addAttribute("loggedSuccess", true);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                return false;
-            }
-            return true;
-        }
-        return false;
+    public UserService(ProductRepository productRepository, UserRepository userRepository, LoggedUserManagementService loggedUserManagementService) {
+        super(productRepository, userRepository, loggedUserManagementService);
     }
 
-    public boolean checkUser(String email, String password) {
+    public boolean checkUser(String email, String password, Model model) {
         List<User> users = userRepository.findAll();
 
         for (User u : users) {
@@ -63,14 +38,19 @@ public class UserService {
                 loggedUserManagementService.setRole(u.getRole());
                 loggedUserManagementService.setNewsNotification(u.getNewsNotification());
 
+
+                model.addAttribute("products", productRepository.findAll());
+                model.addAttribute("userName", loggedUserManagementService.getName());
                 return true;
             }
         }
 
         return false;
     }
+    @Override
+    boolean validation(DTO dto, Model model) {
+        UserDto userDto = (UserDto) dto;
 
-    public boolean signUpValidation(UserDto userDto, Model model) {
         String nameError = "", phoneNumError = "", birthdayError = "", addressError = "", emailError = "", passwordError = "";
         if (userDto.getName().isEmpty()) {
             nameError += "name is empty";
@@ -167,35 +147,11 @@ public class UserService {
         } else return false;
     }
 
-    public User userDtoToUser(UserDto userDto) {
-        User user = new User();
 
-        user.setName(userDto.getName().trim());
-        user.setPhoneNumber(userDto.getPhoneNumber().trim());
-        user.setBirthday(userDto.getBirthday());
-        user.setAddress(userDto.getAddress().trim());
-        user.setEmail(userDto.getEmail().trim());
-        user.setUserPassword(userDto.getPassword().trim());
-        user.setRole("user");
-        user.setNewsNotification("false");
-
-        return user;
-    }
-
-    public boolean deleteUser(Long id) {
-        try {
-            userRepository.deleteById(id);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
-        return true;
-    }
 
     public boolean changeUser(UserDto userDto) {
         try {
-            Optional<User> optionalUser = userRepository.findById(userDto.getId());
-            User user = optionalUser.get();
+            User user = userRepository.findById(userDto.getId()).get();
 
             setUserDtoToUser(user, userDto);
             userRepository.save(user);
@@ -204,6 +160,20 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    boolean haveSuchTuple(DTO dto, Model model){
+        UserDto userDto = (UserDto) dto;
+        List<User> users = userRepository.findAll();
+
+        boolean haveAlreadyAccount = users.stream()
+                .anyMatch(user -> user.getEmail().equals(userDto.getEmail()) ||
+                        user.getPhoneNumber().equals(userDto.getPhoneNumber()));
+
+        if (haveAlreadyAccount) model.addAttribute("alreadyHave", true);
+
+        return haveAlreadyAccount;
     }
 
     private void setUserDtoToUser(User user, UserDto userDto) {
@@ -222,43 +192,7 @@ public class UserService {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("[0-9]");
-        Matcher matcher1 = pattern.matcher(changePasswordDto.getNewPassword());
-
-        pattern = Pattern.compile("[A-Z]");
-        Matcher matcher2 = pattern.matcher(changePasswordDto.getNewPassword());
-
-        pattern = Pattern.compile("[a-z]");
-        Matcher matcher3 = pattern.matcher(changePasswordDto.getNewPassword());
-
-        pattern = Pattern.compile("[.,:;@&%$]");
-        Matcher matcher4 = pattern.matcher(changePasswordDto.getNewPassword());
-
-        if (!matcher1.find()) {
-            loggedUserManagementService.setMessageToUser("password must have nums [0-9]");
-            return false;
-        }
-        if (!matcher2.find()) {
-            loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы A-Z");
-            return false;
-        }
-        if (!matcher3.find()) {
-            loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы a-z");
-            return false;
-        }
-        if (!matcher4.find()) {
-            loggedUserManagementService.setMessageToUser("Пароль должен содержать знаки");
-            return false;
-        }
-        if (changePasswordDto.getNewPassword().length() <= 8) {
-            loggedUserManagementService.setMessageToUser("Пароль должен содержать 8 символов");
-            return false;
-        }
-
-        if (!changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword())) {
-            loggedUserManagementService.setMessageToUser("Новые пароли не совпадает!");
-            return false;
-        }
+        if (PasswordValidation(changePasswordDto)) return false;
 
         try {
             user.setUserPassword(changePasswordDto.getNewPassword());
@@ -288,4 +222,140 @@ public class UserService {
         }
         return true;
     }
+
+    public boolean checkCode(String code) {
+        try{
+            Long parseLong = Long.parseLong(code);
+            if(loggedUserManagementService.getCodeToConfirmEmail().equals(parseLong)){
+                loggedUserManagementService.setId(userRepository.findUserByEmail(loggedUserManagementService.getEmail()).getId());
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+    public boolean createNewPassword(ChangePasswordDto changePasswordDto, Model model) {
+        try{
+            if(changePasswordDto.getNewPassword().equals(changePasswordDto.getConfirmPassword())){
+                if (PasswordValidation(changePasswordDto)) return false;
+
+                try{
+                    User user = userRepository.findById(loggedUserManagementService.getId()).get();
+
+                    user.setUserPassword(changePasswordDto.getNewPassword());
+                    userRepository.save(user);
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+                return true;
+            }else{
+                loggedUserManagementService.setMessageToUser("Пароли не совподают");
+                return false;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    protected CustomEntity dtoToEntity(DTO dto) {
+        User user = new User();
+        UserDto userDto = (UserDto) dto;
+
+        user.setName(userDto.getName().trim());
+        user.setPhoneNumber(userDto.getPhoneNumber().trim());
+        user.setBirthday(userDto.getBirthday());
+        user.setAddress(userDto.getAddress().trim());
+        user.setEmail(userDto.getEmail().trim());
+        user.setUserPassword(userDto.getPassword().trim());
+        user.setRole("user");
+        user.setNewsNotification("false");
+
+        return user;
+    }
+
+    private boolean PasswordValidation(ChangePasswordDto changePasswordDto) {
+        Pattern pattern = Pattern.compile("[0-9]");
+        Matcher matcher1 = pattern.matcher(changePasswordDto.getNewPassword());
+
+        pattern = Pattern.compile("[A-Z]");
+        Matcher matcher2 = pattern.matcher(changePasswordDto.getNewPassword());
+
+        pattern = Pattern.compile("[a-z]");
+        Matcher matcher3 = pattern.matcher(changePasswordDto.getNewPassword());
+
+        pattern = Pattern.compile("[.,:;@&%$]");
+        Matcher matcher4 = pattern.matcher(changePasswordDto.getNewPassword());
+
+        if (!matcher1.find()) {
+            loggedUserManagementService.setMessageToUser("password must have nums [0-9]");
+            return true;
+        }
+        if (!matcher2.find()) {
+            loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы A-Z");
+            return true;
+        }
+        if (!matcher3.find()) {
+            loggedUserManagementService.setMessageToUser("Пароль должен содержать буквы a-z");
+            return true;
+        }
+        if (!matcher4.find()) {
+            loggedUserManagementService.setMessageToUser("Пароль должен содержать знаки");
+            return true;
+        }
+        if (changePasswordDto.getNewPassword().length() <= 8) {
+            loggedUserManagementService.setMessageToUser("Пароль должен содержать 8 символов");
+            return true;
+        }
+
+        if (!changePasswordDto.getConfirmPassword().equals(changePasswordDto.getNewPassword())) {
+            loggedUserManagementService.setMessageToUser("Новые пароли не совпадает!");
+            return true;
+        }
+        return false;
+    }
+
+//    public boolean deleteUser(Long id) {
+//        try {
+//            userRepository.deleteById(id);
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
+
+//    public User userDtoToUser(UserDto userDto) {
+//        User user = new User();
+//        user.setNewsNotification("false");
+//        user.setRole("user");
+//        user.setUserPassword(userDto.getPassword().trim());
+//        user.setEmail(userDto.getEmail().trim());
+//        user.setAddress(userDto.getAddress().trim());
+//        user.setBirthday(userDto.getBirthday());
+//        user.setPhoneNumber(userDto.getPhoneNumber().trim());
+//        user.setName(userDto.getName().trim());
+//        return user;
+//    }
+
+//    public boolean addUser(UserDto userDto, Model model) {
+//
+//        if (validation(userDto, model) && !haveSuchTuple(userDto, model)) {
+//            User user = (User) dtoToEntity(userDto);
+//            try {
+//                userRepository.save(user);
+//                model.addAttribute("loggedSuccess", true);
+//            } catch (Exception ex) {
+//                System.out.println(ex.getMessage());
+//                return false;
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
 }

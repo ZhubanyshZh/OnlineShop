@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.entity.Product;
 import org.example.service.LoggedUserManagementService;
 import org.example.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -72,7 +71,7 @@ public class ClothesController {
                             minPrice==null &&
                                 maxPrice==null
         ){
-            productService.getAllProducts(model);
+            productService.getCachedAllProducts(model);
         }
         model.addAttribute("userName", loggedUserManagementService.getName());
         productService.getAllCategories(model);

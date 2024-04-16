@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.repository.FavoriteRepository;
 import org.example.service.BucketService;
 import org.example.service.FavoriteService;
 import org.example.service.LoggedUserManagementService;
@@ -29,7 +28,7 @@ public class MoreAboutClotheController {
             try{
                 Long userId = loggedUserManagementService.getId();
                 Long parseId = Long.parseLong(id);
-                productService.getProductById(parseId, model);
+                productService.getCachedProductById(parseId, model);
                 model.addAttribute("isProductInTheBucket",
                         bucketService.haveTheProductThisUser(parseId, userId));
                 model.addAttribute("userName", loggedUserManagementService.getName());
@@ -38,9 +37,6 @@ public class MoreAboutClotheController {
                 System.out.println(e.getMessage());
                 return "redirect:/Clothes";
             }
-
-
-
             return "MoreClothe";
         }else{
             return "redirect:/Clothes";

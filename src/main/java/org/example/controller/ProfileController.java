@@ -1,18 +1,13 @@
 package org.example.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.example.domain.model.Bucket;
-import org.example.dto.BucketDto;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.ProductDto;
 import org.example.dto.UserDto;
-import org.example.repository.Command;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
 import org.example.service.*;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +28,7 @@ public class ProfileController {
     @PostMapping("/addProduct")
     public String addProduct(ProductDto productDto, Model model){
 
-        if(productService.addProduct(productDto)){
+        if(productService.save(productDto, productRepository, model)){
             return "redirect:/Profile?successAdded=true";
         }else{
             return "redirect:/Profile?successAdded=false";
@@ -45,7 +40,7 @@ public class ProfileController {
     @PostMapping("/deleteProduct")
     public String deleteProduct(ProductDto productDto){
 
-        if(productService.deleteProduct(productDto.getId())){
+        if(productService.deleteById(productDto.getId(), productRepository)){
             return "redirect:/Profile?successDeleted=true";
         }else{
             return "redirect:/Profile?successDeleted=false";
@@ -133,7 +128,7 @@ public class ProfileController {
     @PostMapping("/deleteUser")
     public String deleteUser(UserDto userDto){
 
-        if(userService.deleteUser(userDto.getId())){
+        if(userService.deleteById(userDto.getId(), userRepository)){
             return "redirect:/Profile?successDeleted=true";
         }else{
             return "redirect:/Profile?successDeleted=false";

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.redis.core.RedisHash;
 
 @Entity
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ import lombok.ToString;
         @Index(name = "idx_user_email_unq", columnList = "email", unique = true),
         @Index(name = "idx_user_phonenumber_unq", columnList = "phoneNumber", unique = true)
 })
-public final class User {
+public final class User implements CustomEntity{
     @Id
     @GeneratedValue
     @Column(name = "userId")
