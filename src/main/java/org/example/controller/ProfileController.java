@@ -68,9 +68,10 @@ public class ProfileController {
         if(loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("admin")){
             model.addAttribute("role", loggedUserManagementService.getRole());
             model.addAttribute("users", userRepository.findAll());
-            model.addAttribute("products", productRepository.findAll());
+            model.addAttribute("products", productRepository.findAllWithCategoryName());
             model.addAttribute("userName", loggedUserManagementService.getName());
             model.addAttribute("role", loggedUserManagementService.getRole());
+            model.addAttribute("categories", productService.findCategories());
 
             if(successAdded != null && successAdded.equals("true")){
                 model.addAttribute("added", true);

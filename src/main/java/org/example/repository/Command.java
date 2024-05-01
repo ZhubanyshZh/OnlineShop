@@ -13,6 +13,9 @@ public interface Command {
         product.setPrice(productDto.getPrice());
         product.setSize(productDto.getSize());
         product.setQuantity(productDto.getQuantity());
-        product.setCategory(categoryRepositories.findByName(productDto.getName()));
+        product.setCategory(categoryRepositories.findCategoryByName(productDto.getCategory()));
+        product.setDiscount(productDto.getDiscount());
+        product.setDiscountCreatedAt(productDto.getDiscountCreatedAt());
+        product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
     }
 }

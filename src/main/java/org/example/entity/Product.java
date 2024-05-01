@@ -1,8 +1,11 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+import jdk.jfr.SettingDefinition;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import reactor.util.annotation.Nullable;
 
 @Data
 @RequiredArgsConstructor
@@ -36,4 +39,13 @@ public class Product implements CustomEntity{
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Column
+    private String discountCreatedAt;
+
+    @Column
+    private String discountFinishedAt;
+
+    @Column(columnDefinition = "int default 0")
+    private int discount = 0;
 }

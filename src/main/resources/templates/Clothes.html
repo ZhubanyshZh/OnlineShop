@@ -524,8 +524,13 @@
                     <div class="card-body p-4">
                         <a class="text-decoration-none link-dark stretched-link"
                            th:href="'/More?id=' + ${product.id}"><h5
+                                th:if="${product.discountCreatedAt == null}"
                                 class="card-title mb-3"
                                 th:text="${product.productName} + ' ' + ${product.price} + ' KZT'"></h5>
+                            <h5
+                                    th:if="${product.discountCreatedAt != null}"
+                                    class="card-title mb-3"
+                                    th:text="${product.productName} + ' ' + (${product.price} * (100 - ${product.discount})) / 100 + ' KZT скидка'"></h5>
                         </a>
                         <p class="card-text mb-0" th:text="${product.productBrand} + ' | Это стильная и удобная мужская одежда,
                             созданная для комфорта и элегантности в повседневной жизни.'"></p>

@@ -602,6 +602,34 @@
                     </div>
                 </div>
             </div>
+            <button data-bs-toggle="modal" class="btn btn-dark mb-3" data-bs-target="#discount">To make a discount</button>
+            <!-- Modal -->
+            <div class="modal fade" id="discount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Label">Notify users about news with email</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/Notification/newsNotificationWithEmail" method="post">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">HEADER</label>
+                                    <input type="text" class="form-control" name="header" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">CONTENT</label>
+                                    <input type="text" class="form-control" name="content" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                </div>
+                                <button type="submit" class="btn btn-dark">Notify</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Modal -->
             <div class="card mb-4">
                 <div class="card-header">
@@ -643,7 +671,9 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Product Categoria</label>
-                                            <input type="text" class="form-control" name="category" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                            <select name="category" id="exampleInputEmail1">
+                                                <option th:each="cat : ${categories}" th:text="${cat}"></option>
+                                            </select>
                                         </div>
                                         <button type="submit" class="btn btn-dark">ADD</button>
                                     </form>
@@ -667,6 +697,9 @@
                             <th style="width: 10%;">Amount</th>
                             <th style="width: 13%;">Photo.png</th>
                             <th style="width: 10%;">Categoria</th>
+                            <th style="width: 10%;">Discount %</th>
+                            <th style="width: 10%;">Created</th>
+                            <th style="width: 10%;">Finished</th>
                             <th style="width: 10%;">Change</th>
                             <th style="width: 5%;">Delete</th>
                         </tr>
@@ -675,13 +708,16 @@
                         <tbody>
                         <tr th:each="product : ${products}">
                             <td th:text="${product.id}"></td>
-                            <td th:text="${product.productName}"></td>
-                            <td th:text="${product.productBrand}"></td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.brand}"></td>
                             <td th:text="${product.price}"></td>
                             <td th:text="${product.size}"></td>
                             <td th:text="${product.quantity}"></td>
                             <td th:text="${product.photo}"></td>
                             <td th:text="${product.category}"></td>
+                            <td th:text="${product.discount}"></td>
+                            <td th:text="${product.discountCreatedAt}"></td>
+                            <td th:text="${product.discountFinishedAt}"></td>
                             <td>
                                 <button data-bs-toggle="modal" class="btn btn-dark" th:data-bs-target="'#staticBackdrop_' + ${product.id}">Change</button>
                                 <!-- Modal -->
@@ -696,11 +732,11 @@
                                                 <form action="/Profile/changeProduct" method="post">
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Product Name</label>
-                                                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.productName}" required>
+                                                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.name}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Product Brand</label>
-                                                        <input type="text" class="form-control" name="brand" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.productBrand}" required>
+                                                        <input type="text" class="form-control" name="brand" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.brand}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Product Price</label>
@@ -715,8 +751,24 @@
                                                         <input type="text" class="form-control" name="quantity" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.quantity}" required>
                                                     </div>
                                                     <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Product Photo</label>
+                                                        <input type="file" class="form-control" name="photo" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.photo}" required>
+                                                    </div>
+                                                    <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Product Categoria</label>
                                                         <input type="text" class="form-control" name="category" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.category}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Product Discount</label>
+                                                        <input type="text" class="form-control" name="discount" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discount}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Product Discount Created At</label>
+                                                        <input type="text" class="form-control" name="discountCreatedAt" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discountCreatedAt}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Product Discoutn Finished At</label>
+                                                        <input type="text" class="form-control" name="discountFinishedAt" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discountFinishedAt}" required>
                                                     </div>
                                                     <input type="hidden" name="id" th:value="${product.id}">
                                                     <button type="submit" class="btn btn-dark">Change</button>

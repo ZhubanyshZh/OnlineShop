@@ -125,8 +125,13 @@ public class ProductService extends MyService {
         product.setPrice(productDto.getPrice());
         product.setSize(productDto.getSize());
         product.setQuantity(productDto.getQuantity());
-        Category category = categoryRepository.findByName(productDto.getName());
+        product.setPhoto(productDto.getPhoto());
+        Category category = categoryRepository.findCategoryByName(productDto.getCategory());
         product.setCategory(category);
+        product.setDiscount(productDto.getDiscount());
+        product.setDiscountCreatedAt(productDto.getDiscountCreatedAt());
+        product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
+
     }
 
     public void orderByDesc(Model model){
@@ -201,6 +206,14 @@ public class ProductService extends MyService {
         }
     }
 
+    public List<String> findCategories() {
+        try{
+            return categoryRepository.findCategories();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
 
     //    private Product dtoToEntity(ProductDto productDto) {

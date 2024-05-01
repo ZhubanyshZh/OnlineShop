@@ -21,9 +21,6 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parentId;
 
-    @OneToMany(mappedBy = "parentId")
-    private List<Category> subcategories;
-
 //    @OneToMany(mappedBy = "category")
 //    private List<Product> products;
 }

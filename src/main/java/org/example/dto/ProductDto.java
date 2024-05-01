@@ -18,5 +18,7 @@ public class ProductDto implements DTO{
     private int quantity;
     private String photo;
     private String category;
-
+    private String discountCreatedAt;
+    private String discountFinishedAt;
+    private int discount;
 }
