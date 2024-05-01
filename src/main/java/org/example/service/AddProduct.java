@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ProductDto;
 import org.example.entity.Product;
+import org.example.repository.CategoryRepository;
 import org.example.repository.Command;
 import org.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,12 @@ import org.springframework.stereotype.Service;
 public class AddProduct implements Command {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     @Override
     public boolean execute(ProductDto productDto){
         Product product = new Product();
         product.setPhoto(productDto.getPhoto());
-        ProductDtoToProduct(product, productDto);
+        ProductDtoToProduct(product, productDto, categoryRepository);
 
         try {
             productRepository.save(product);

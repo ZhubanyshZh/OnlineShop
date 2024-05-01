@@ -33,7 +33,7 @@ public class Product implements CustomEntity{
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "category")
-    private String category;
-
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

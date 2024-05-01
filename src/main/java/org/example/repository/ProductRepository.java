@@ -11,14 +11,14 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByOrderByPriceAsc();
     List<Product> findByOrderByPriceDesc();
-    @Query("SELECT DISTINCT p.category FROM Product p")
+    @Query("SELECT DISTINCT c.name FROM Category c")
     List<String> findDistinctCategory();
     @Query("SELECT DISTINCT p.productBrand FROM Product p")
     List<String> findDistinctProductBrand();
     @Query("SELECT DISTINCT p.size FROM Product p")
     List<String> findDistinctSize();
     @Query("SELECT p FROM Product p " +
-            "WHERE (:categories IS NULL OR p.category IN (:categories)) " +
+            "WHERE (:categories IS NULL OR p.category.name IN (:categories)) " +
             "AND (:brands IS NULL OR p.productBrand IN (:brands)) " +
             "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +

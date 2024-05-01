@@ -463,15 +463,15 @@
                             созданная для комфорта и элегантности в повседневной жизни.'"></p>
                         <p class="card-text mb-0" th:text="'Размер: ' + ${product.size}"></p>
                         <div style="display:flex; justify-content: end;">
-                            <form action="/Bucket/subtract" method="post"
-                                  style="display:flex; justify-content: end;">
+                            <form method="post" action="/Bucket/subtract"
+                                  style="display:flex; justify-content: end;"> <!-- action="/Bucket/subtract"-->
                                 <button class="btn btn-danger" type="submit">-</button>
                                 <input type="hidden" th:value="${product.id}" name="id">
 <!--                                <input type="hidden" value="<?=$b->get_amount()?>" name="amount">-->
                             </form>
                             <input style="margin: 0 5px;" type="number" name="amount" max="3" min="1" readonly
                                    th:value="${product.quantity}">
-                            <form action="/Bucket/add" method="post">
+                            <form action="/Bucket/add" method="post"> <!-- action="/Bucket/add"-->
                                 <input type="hidden" th:value="${product.id}" name="id">
 <!--                                <input type="hidden" value="<?=$b->get_amount()?>" name="amount">-->
                                 <button class="btn btn-dark" type="submit">+</button>
