@@ -8,6 +8,7 @@ import org.example.entity.User;
 import org.example.dto.UserDto;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -327,6 +328,9 @@ public class UserService extends MyService {
         }
 
         return userRepository.save(user);
+    }
+
+    public UserDetailsService userDetailsService() {
     }
 
 //    public boolean deleteUser(Long id) {
