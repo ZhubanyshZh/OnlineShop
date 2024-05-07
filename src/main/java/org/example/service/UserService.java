@@ -331,6 +331,7 @@ public class UserService extends MyService {
     }
 
     public UserDetailsService userDetailsService() {
+        return null;
     }
 
 //    public boolean deleteUser(Long id) {

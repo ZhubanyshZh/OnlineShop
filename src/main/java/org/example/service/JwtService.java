@@ -46,8 +46,10 @@ public class JwtService {
     }
 
     public Object extractUserName(String jwt) {
+        return null;
     }
 
     public boolean isTokenValid(String jwt, UserDetails userDetails) {
+        return true;
     }
 }
