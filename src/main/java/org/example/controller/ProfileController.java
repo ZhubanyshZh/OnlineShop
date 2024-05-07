@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.ProductDto;
 import org.example.dto.UserDto;
+import org.example.repository.CategoryRepository;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
 import org.example.service.*;
@@ -24,6 +25,7 @@ public class ProfileController {
     private final ProductRepository productRepository;
     private final ProductService productService;
     private final UserService userService;
+    private final CategoryRepository categoryRepository;
 
     @PostMapping("/addProduct")
     public String addProduct(ProductDto productDto, Model model){
@@ -34,6 +36,8 @@ public class ProfileController {
             return "redirect:/Profile?successAdded=false";
         }
     }
+
+
 
 
 
@@ -72,6 +76,7 @@ public class ProfileController {
             model.addAttribute("userName", loggedUserManagementService.getName());
             model.addAttribute("role", loggedUserManagementService.getRole());
             model.addAttribute("categories", productService.findCategories());
+            model.addAttribute("allCategories", categoryRepository.findAllCategory());
 
             if(successAdded != null && successAdded.equals("true")){
                 model.addAttribute("added", true);

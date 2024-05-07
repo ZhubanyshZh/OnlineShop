@@ -129,9 +129,9 @@ public class ProductService extends MyService {
         Category category = categoryRepository.findCategoryByName(productDto.getCategory());
         product.setCategory(category);
         product.setDiscount(productDto.getDiscount());
-        product.setDiscountCreatedAt(productDto.getDiscountCreatedAt());
-        product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
-
+        if(productDto.getDiscountFinishedAt().trim()=="" && productDto.getDiscountFinishedAt().trim().isBlank()){
+            product.setDiscountFinishedAt(null);
+        }else product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
     }
 
     public void orderByDesc(Model model){

@@ -15,6 +15,6 @@ spring:
     redis:
       host: localhost
       port: 6379
-  token:
-    sign:
-      sec
+token:
+  sign:
+    secret-key: CKXEDQBVK

@@ -36,17 +36,4 @@ public class HomeController {
         model.addAttribute("photos", linkToHomePageImages);
         return "HomePage";
     }
-
-    @ToLogOurApp
-    @PostMapping
-    public String checkUser(UserDto userDto, Model model){
-        if(userService.checkUser(userDto.getEmail(), userDto.getPassword(), model)){
-            return "HomePage";
-        }
-        model.addAttribute("error", true);
-        model.addAttribute("email", userDto.getEmail());
-        model.addAttribute("password", userDto.getPassword());
-
-        return "Login";
-    }
 }

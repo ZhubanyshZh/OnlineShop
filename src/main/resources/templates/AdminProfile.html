@@ -602,26 +602,32 @@
                     </div>
                 </div>
             </div>
-            <button data-bs-toggle="modal" class="btn btn-dark mb-3" data-bs-target="#discount">To make a discount</button>
+            <button data-bs-toggle="modal" class="btn btn-dark mb-3" data-bs-target="#discount">To make a discount by category</button>
             <!-- Modal -->
             <div class="modal fade" id="discount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="Label">Notify users about news with email</h1>
+                            <h1 class="modal-title fs-5" id="Label">To make a discount by category</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/Notification/newsNotificationWithEmail" method="post">
+                            <form action="/makeDiscount" method="post">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">HEADER</label>
-                                    <input type="text" class="form-control" name="header" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                    <label for="exampleInputEmail1" class="form-label">Choose Category</label>
+                                    <select name="category" id="exampleInputEmail1">
+                                        <option th:each="cat : ${allCategories}" th:text="${cat}"></option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">CONTENT</label>
-                                    <input type="text" class="form-control" name="content" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                    <label for="exampleInputEmail1" class="form-label">Discount Amount(%)</label>
+                                    <input type="text" class="form-control" name="discountAmount" id="exampleInputEmail1" aria-describedby="emailHelp" required>
                                 </div>
-                                <button type="submit" class="btn btn-dark">Notify</button>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Discount Finished At(yyyy-mm-dd hh:mm:ss.0+05)</label>
+                                    <input type="text" class="form-control" name="finishedAt" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                </div>
+                                <button type="submit" class="btn btn-dark">Discount</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -760,15 +766,11 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Product Discount</label>
-                                                        <input type="text" class="form-control" name="discount" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discount}" required>
+                                                        <input type="text" class="form-control" name="discount" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discount}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Product Discount Created At</label>
-                                                        <input type="text" class="form-control" name="discountCreatedAt" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discountCreatedAt}" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Product Discoutn Finished At</label>
-                                                        <input type="text" class="form-control" name="discountFinishedAt" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discountFinishedAt}" required>
+                                                        <label for="exampleInputEmail1" class="form-label">Product Discoutn Finished At(yyyy-mm-dd hh:mm:ss.0+05)</label>
+                                                        <input type="text" class="form-control" name="discountFinishedAt" id="exampleInputEmail1" aria-describedby="emailHelp" th:value="${product.discountFinishedAt}">
                                                     </div>
                                                     <input type="hidden" name="id" th:value="${product.id}">
                                                     <button type="submit" class="btn btn-dark">Change</button>

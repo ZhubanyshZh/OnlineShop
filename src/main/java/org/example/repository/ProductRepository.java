@@ -30,4 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT new org.example.dto.ProductDto(p.id, p.productName, p.productBrand, p.price, p.size, p.quantity, p.photo, c.name, p.discountCreatedAt, p.discountFinishedAt, p.discount) " +
             "FROM Product p INNER JOIN Category c ON c.id = p.category.id")
     List<ProductDto> findAllWithCategoryName();
+
+    @Query("SELECT p FROM Product p WHERE p.category.name = :catName")
+    List<Product> findByCategoryName(String catName);
 }

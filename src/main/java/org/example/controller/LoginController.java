@@ -1,8 +1,11 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.aspect.ToLogOurApp;
 import org.example.dto.ChangePasswordDto;
+import org.example.dto.JwtAuthToken;
 import org.example.dto.UserDto;
+import org.example.service.AuthService;
 import org.example.service.LoggedUserManagementService;
 import org.example.service.NotificationService;
 import org.example.service.UserService;
@@ -18,8 +21,28 @@ public class LoginController {
     private final UserService userService;
     private final LoggedUserManagementService loggedUserManagementService;
     private final NotificationService notificationService;
+    private final AuthService authService;
 
-    @RequestMapping(method = RequestMethod.GET)
+
+    @ToLogOurApp
+    @PostMapping
+    public String authUser(UserDto userDto, Model model){
+        if(userService.checkUser(userDto.getEmail(), userDto.getPassword(), model)){
+            return "HomePage";
+        }
+        model.addAttribute("error", true);
+        model.addAttribute("email", userDto.getEmail());
+        model.addAttribute("password", userDto.getPassword());
+
+        return "Login";
+    }
+
+    @PostMapping("/newLogin")
+    public JwtAuthToken loginUser(UserDto userDto, Model model){
+        return authService.login(userDto);
+    }
+
+    @GetMapping
     public String getLogin(
             Model model,
             @RequestParam(name = "firstLog", required = false) String firstLog,

@@ -320,6 +320,15 @@ public class UserService extends MyService {
         return false;
     }
 
+    public User create(User user){
+
+        if(userRepository.existsByEmailAndPhoneNumber(user.getEmail(), user.getPhoneNumber())){
+            throw new RuntimeException("Данный пользователь уже существует");
+        }
+
+        return userRepository.save(user);
+    }
+
 //    public boolean deleteUser(Long id) {
 //        try {
 //            userRepository.deleteById(id);

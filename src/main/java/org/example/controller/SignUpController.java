@@ -1,8 +1,11 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.dto.JwtAuthToken;
 import org.example.dto.UserDto;
 import org.example.repository.UserRepository;
+import org.example.service.AuthService;
+import org.example.service.JwtService;
 import org.example.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ public class SignUpController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final AuthService authService;
 
     @GetMapping
     public String getSignUp(Model model){
@@ -29,5 +33,10 @@ public class SignUpController {
         }else{
             return "redirect:/Login?loggedSuccess=true";
         }
+    }
+
+    @PostMapping("/newSignUp")
+    public JwtAuthToken loginUser(UserDto userDto, Model model){
+        return authService.signUp(userDto);
     }
 }
