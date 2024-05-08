@@ -9,6 +9,7 @@ import org.example.dto.UserDto;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -228,7 +229,7 @@ public class UserService extends MyService {
         try{
             Long parseLong = Long.parseLong(code);
             if(loggedUserManagementService.getCodeToConfirmEmail().equals(parseLong)){
-                loggedUserManagementService.setId(userRepository.findUserByEmail(loggedUserManagementService.getEmail()).getId());
+                loggedUserManagementService.setId(userRepository.findUserByEmail(loggedUserManagementService.getEmail()).get().getId());
                 return true;
             }
         }catch (Exception e){
@@ -330,8 +331,13 @@ public class UserService extends MyService {
         return userRepository.save(user);
     }
 
+    public User getByUserEmail(String email){
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+    }
+
     public UserDetailsService userDetailsService() {
-        return null;
+        return this::getByUserEmail;
     }
 
 //    public boolean deleteUser(Long id) {

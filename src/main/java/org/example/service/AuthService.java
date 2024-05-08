@@ -2,9 +2,11 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.JwtAuthToken;
+import org.example.dto.JwtAuthenticationResponse;
 import org.example.dto.UserDto;
 import org.example.entity.User;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class AuthService {
     public JwtAuthToken signUp(UserDto userDto) {
 
         User user = User.builder()
+                .id(null)
                 .name(userDto.getName())
                 .phoneNumber(userDto.getPhoneNumber())
                 .birthday(userDto.getBirthday())
@@ -36,6 +39,16 @@ public class AuthService {
     }
 
     public JwtAuthToken login(UserDto userDto) {
-        return null;
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                userDto.getEmail(),
+                userDto.getPassword()
+        ));
+
+        var user = userService
+                .userDetailsService()
+                .loadUserByUsername(userDto.getEmail());
+
+        var jwt = jwtService.generateToken(user);
+        return new JwtAuthToken(jwt);
     }
 }

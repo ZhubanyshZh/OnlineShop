@@ -36,7 +36,8 @@ public class SignUpController {
     }
 
     @PostMapping("/newSignUp")
-    public JwtAuthToken loginUser(UserDto userDto, Model model){
+    @ResponseBody
+    public JwtAuthToken loginUser(@RequestBody UserDto userDto, Model model){
         return authService.signUp(userDto);
     }
 }

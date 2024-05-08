@@ -17,4 +17,4 @@ spring:
       port: 6379
 token:
   sign:
-    secret-key: CKXEDQBVK
+    secret-key: CKXEDQBVKCKXEDQBVKCKXEDQBVKCKXEDQBVKCKXEDQBVKCKXEDQBVKCKXEDQBVK

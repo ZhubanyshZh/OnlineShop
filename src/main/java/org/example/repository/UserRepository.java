@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -14,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUsersByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
-    User findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
     boolean existsByEmailAndPhoneNumber(String email, String phoneNum);
 }

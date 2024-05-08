@@ -11,10 +11,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@RequiredArgsConstructor
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ms_user", indexes = {
         @Index(name = "idx_user_email_unq", columnList = "email", unique = true),
         @Index(name = "idx_user_phonenumber_unq", columnList = "phoneNumber", unique = true)

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.example.aspect.ToLogOurApp;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.JwtAuthToken;
+import org.example.dto.JwtAuthenticationResponse;
 import org.example.dto.UserDto;
 import org.example.service.AuthService;
 import org.example.service.LoggedUserManagementService;
@@ -38,7 +39,8 @@ public class LoginController {
     }
 
     @PostMapping("/newLogin")
-    public JwtAuthToken loginUser(UserDto userDto, Model model){
+    @ResponseBody
+    public JwtAuthToken loginUser(@RequestBody UserDto userDto, Model model){
         return authService.login(userDto);
     }
 
