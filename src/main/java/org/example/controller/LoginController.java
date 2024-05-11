@@ -40,6 +40,7 @@ public class LoginController {
 
     @PostMapping("/newLogin")
     @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
     public JwtAuthToken loginUser(@RequestBody UserDto userDto, Model model){
         return authService.login(userDto);
     }
