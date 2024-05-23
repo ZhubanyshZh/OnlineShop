@@ -3,6 +3,7 @@ package org.example.service;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.DTO;
+import org.example.dto.SignUpDto;
 import org.example.entity.CustomEntity;
 import org.example.entity.User;
 import org.example.dto.UserDto;
@@ -322,13 +323,14 @@ public class UserService extends MyService {
         return false;
     }
 
-    public User create(User user){
+    public SignUpDto create(User user){
 
-        if(userRepository.existsByEmailAndPhoneNumber(user.getEmail(), user.getPhoneNumber())){
-            throw new RuntimeException("Данный пользователь уже существует");
+        if(userRepository.existsByEmailOrPhoneNumber(user.getEmail(), user.getPhoneNumber())){
+            return SignUpDto.builder().alreadyExistSuchUser(true).build();
+        }else{
+            userRepository.save(user);
+            return SignUpDto.builder().successSigned(true).build();
         }
-
-        return userRepository.save(user);
     }
 
     public User getByUserEmail(String email){

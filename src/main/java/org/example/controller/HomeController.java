@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.aspect.ToLogOurApp;
+import org.example.dto.HomePageDto;
 import org.example.dto.UserDto;
 import org.example.repository.ProductRepository;
 import org.example.service.LoggedUserManagementService;
@@ -13,10 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
-@RequestMapping("/HomePage")
 @RequiredArgsConstructor
+@RequestMapping("/HomePage")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HomeController {
 
     private final UserService userService;
@@ -25,7 +28,7 @@ public class HomeController {
     private final LoggedUserManagementService loggedUserManagementService;
 
     @GetMapping
-    public String getHome(Model model){
+    public String getHome(Model model) {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("userName", loggedUserManagementService.getName());
         ArrayList<String> linkToHomePageImages = new ArrayList<>();
@@ -35,5 +38,14 @@ public class HomeController {
         linkToHomePageImages.add("homePageImg4.jpg");
         model.addAttribute("photos", linkToHomePageImages);
         return "HomePage";
+    }
+
+    @GetMapping("/homePageLoader")
+    @ResponseBody
+    public HomePageDto homeLoader() {
+        return HomePageDto.builder().
+                productDtos(productService.findAll())
+                .linkToHomePageImages(List.of("homePageImg.jpg", "homePageImg2.jpg", "homePageImg3.jpg", "homePageImg4.jpg"))
+                .build();
     }
 }

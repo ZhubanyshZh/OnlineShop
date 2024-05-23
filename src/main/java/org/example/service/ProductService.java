@@ -28,25 +28,26 @@ public class ProductService extends MyService {
 
     private static final JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
     private ObjectMapper mapper = new ObjectMapper();
+
     public ProductService(ProductRepository productRepository, UserRepository userRepository, LoggedUserManagementService loggedUserManagementService, CategoryRepository categoryRepository) {
         super(productRepository, userRepository, loggedUserManagementService);
         this.categoryRepository = categoryRepository;
     }
 
-    public void getCachedProductById(Long id, Model model){
+    public void getCachedProductById(Long id, Model model) {
         Product product = new Product();
-        try(Jedis jedis = jedisPool.getResource()) {
+        try (Jedis jedis = jedisPool.getResource()) {
             String key = "product:%d".formatted(id);
             String raw = jedis.get(key);
-            if(raw != null){
+            if (raw != null) {
                 model.addAttribute("product", mapper.readValue(raw, Product.class));
-            }else{
+            } else {
                 product = productRepository.findById(id).get();
                 model.addAttribute("product", product);
                 jedis.setex(key, 60L, mapper.writeValueAsString(product));
             }
 
-        }catch (JsonParseException e){
+        } catch (JsonParseException e) {
             System.out.println(e.getMessage());
         } catch (JsonMappingException e) {
             throw new RuntimeException(e);
@@ -55,20 +56,20 @@ public class ProductService extends MyService {
         }
     }
 
-    public void getAllProducts(Model model){
+    public void getAllProducts(Model model) {
         List<Product> products = productRepository.findAll();
-        if(products!=null){
+        if (products != null) {
             model.addAttribute("products", products);
         }
     }
 
-    public void getCachedAllProducts(Model model){
-        try(Jedis jedis = jedisPool.getResource()){
+    public void getCachedAllProducts(Model model) {
+        try (Jedis jedis = jedisPool.getResource()) {
             List<Product> products = new ArrayList<>();
             String key = "products";
             List<Product> products1 = jedis.lrange(key, 0, -1).stream()
                     .map(p -> {
-                        try{
+                        try {
                             return mapper.readValue(p, Product.class);
                         } catch (JsonMappingException e) {
                             throw new RuntimeException(e);
@@ -76,11 +77,11 @@ public class ProductService extends MyService {
                             throw new RuntimeException(e);
                         }
                     }).collect(Collectors.toList());
-            if(products1.size() != 0){
+            if (products1.size() != 0) {
                 model.addAttribute("products", products1);
-            }else{
+            } else {
                 products = productRepository.findAll();
-                if(products!=null){
+                if (products != null) {
                     model.addAttribute("products", products);
 
                     products.stream()
@@ -108,18 +109,18 @@ public class ProductService extends MyService {
 
     public boolean changeProduct(ProductDto productDto) {
 
-        try{
+        try {
             Product product = productRepository.findById(productDto.getId()).get();
 
             setProductDtoToProduct(product, productDto);
             productRepository.save(product);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return false;
         }
         return true;
     }
 
-    public void setProductDtoToProduct(Product product, ProductDto productDto){
+    public void setProductDtoToProduct(Product product, ProductDto productDto) {
         product.setProductName(productDto.getName());
         product.setProductBrand(productDto.getBrand());
         product.setPrice(productDto.getPrice());
@@ -129,31 +130,31 @@ public class ProductService extends MyService {
         Category category = categoryRepository.findCategoryByName(productDto.getCategory());
         product.setCategory(category);
         product.setDiscount(productDto.getDiscount());
-        if(productDto.getDiscountFinishedAt().trim()=="" && productDto.getDiscountFinishedAt().trim().isBlank()){
+        if (productDto.getDiscountFinishedAt().trim() == "" && productDto.getDiscountFinishedAt().trim().isBlank()) {
             product.setDiscountFinishedAt(null);
-        }else product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
+        } else product.setDiscountFinishedAt(productDto.getDiscountFinishedAt());
     }
 
-    public void orderByDesc(Model model){
+    public void orderByDesc(Model model) {
         List<Product> products = productRepository.findByOrderByPriceDesc();
 
-        try{
-            if(products.size() != 0){
+        try {
+            if (products.size() != 0) {
                 model.addAttribute("products", products);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void orderByAsc(Model model){
+    public void orderByAsc(Model model) {
         List<Product> products = productRepository.findByOrderByPriceAsc();
 
-        try{
-            if(products.size() != 0){
+        try {
+            if (products.size() != 0) {
                 model.addAttribute("products", products);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -161,11 +162,11 @@ public class ProductService extends MyService {
     public void getAllCategories(Model model) {
         List<String> categories = productRepository.findDistinctCategory();
 
-        try{
-            if(categories.size()!=0){
+        try {
+            if (categories.size() != 0) {
                 model.addAttribute("categories", categories);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -173,46 +174,54 @@ public class ProductService extends MyService {
     public void getAllBrands(Model model) {
         List<String> brands = productRepository.findDistinctProductBrand();
 
-        try{
-            if(brands.size()!=0){
+        try {
+            if (brands.size() != 0) {
                 model.addAttribute("brands", brands);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void getAllSizes(Model model){
+    public void getAllSizes(Model model) {
         List<String> sizes = productRepository.findDistinctSize();
 
-        try{
-            if(sizes.size()!=0){
+        try {
+            if (sizes.size() != 0) {
                 model.addAttribute("sizes", sizes);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void filer(List<String> categories, List<String> brands, Long minPrice, Long maxPrice, List<String> sizes, Model model){
+    public void filer(List<String> categories, List<String> brands, Long minPrice, Long maxPrice, List<String> sizes, Model model) {
         List<Product> products = productRepository.findByFilters(categories, brands, minPrice, maxPrice, sizes);
 
-        try{
-            if(products.size()!=0){
+        try {
+            if (products.size() != 0) {
                 model.addAttribute("products", products);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public List<String> findCategories() {
-        try{
+        try {
             return categoryRepository.findCategories();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public List<ProductDto> findAll() {
+        try {
+            return productRepository.findAllWithCategoryName();
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching products" + e.getMessage());
+        }
     }
 
 

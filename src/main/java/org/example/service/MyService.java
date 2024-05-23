@@ -38,9 +38,7 @@ public abstract class MyService {
                 return false;
             }
             return true;
-
         }
-
         return false;
     }
 
