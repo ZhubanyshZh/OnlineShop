@@ -5,6 +5,7 @@ import org.example.service.LoggedUserManagementService;
 import org.example.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/Clothes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ClothesController {
 
     private final LoggedUserManagementService loggedUserManagementService;
@@ -28,33 +30,33 @@ public class ClothesController {
                                  @RequestParam(name = "size", required = false) ArrayList<String> sizes,
                                  @RequestParam(name = "priceOt", required = false) Long minPrice,
                                  @RequestParam(name = "priceDo", required = false) Long maxPrice
-                                 ){
-        if(desc!=null &&
-            categories==null &&
-                brands==null &&
-                    sizes==null &&
-                        minPrice==null &&
-                            maxPrice==null
-        ){
+    ) {
+        if (desc != null &&
+                categories == null &&
+                brands == null &&
+                sizes == null &&
+                minPrice == null &&
+                maxPrice == null
+        ) {
             productService.orderByDesc(model);
         }
 
-        if(asc!=null &&
-            categories==null &&
-                brands==null &&
-                    sizes==null &&
-                        minPrice==null &&
-                            maxPrice==null
-        ){
+        if (asc != null &&
+                categories == null &&
+                brands == null &&
+                sizes == null &&
+                minPrice == null &&
+                maxPrice == null
+        ) {
             productService.orderByAsc(model);
         }
 
-        if(categories!=null ||
-            brands!=null ||
-                sizes!=null ||
-                    minPrice!=null ||
-                        maxPrice!=null
-        ){
+        if (categories != null ||
+                brands != null ||
+                sizes != null ||
+                minPrice != null ||
+                maxPrice != null
+        ) {
             productService.filer(categories, brands, minPrice, maxPrice, sizes, model);
             model.addAttribute("selectedCategories", categories);
             model.addAttribute("selectedBrands", brands);
@@ -63,14 +65,14 @@ public class ClothesController {
             model.addAttribute("enteredMaxPrice", maxPrice);
         }
 
-        if(desc==null &&
-            asc==null &&
-                categories==null &&
-                    brands==null &&
-                        sizes==null &&
-                            minPrice==null &&
-                                maxPrice==null
-        ){
+        if (desc == null &&
+                asc == null &&
+                categories == null &&
+                brands == null &&
+                sizes == null &&
+                minPrice == null &&
+                maxPrice == null
+        ) {
             productService.getCachedAllProducts(model);
         }
         model.addAttribute("userName", loggedUserManagementService.getName());

@@ -18,22 +18,22 @@ public class BucketService {
 
     private final BucketRepository bucketRepository;
 
-    public boolean haveTheProductThisUser(Long productId, Long userId){
+    public boolean haveTheProductThisUser(Long productId, Long userId) {
 
-        try{
+        try {
             return bucketRepository.haveTheProductThisUser(productId, userId);
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
     public void addProduct(Long userId, Long productId) {
 
-        try{
+        try {
             Bucket bucket = new Bucket(null, userId, productId, 1);
 
             bucketRepository.save(bucket);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -43,13 +43,13 @@ public class BucketService {
         ArrayList<BucketDto> products = bucketRepository.findProductsByUserId(userId);
         ArrayList<Product> products1 = new ArrayList<>();
 
-        for(BucketDto b : products){
+        for (BucketDto b : products) {
             Product newProduct = getProduct(b);
 
             products1.add(newProduct);
         }
 
-        if(products1.size() != 0){
+        if (products1.size() != 0) {
             model.addAttribute("products", products1);
         }
     }
@@ -71,15 +71,15 @@ public class BucketService {
 
         Bucket bucket = bucketRepository.findBucketByUserIdAndProductId(userId, productId);
 
-        bucket.setAmount(bucket.getAmount()-1);
+        bucket.setAmount(bucket.getAmount() - 1);
 
-        try{
-            if(bucket.getAmount() != 0){
+        try {
+            if (bucket.getAmount() != 0) {
                 bucketRepository.save(bucket);
-            }else{
+            } else {
                 bucketRepository.deleteById(bucket.getId());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -89,7 +89,7 @@ public class BucketService {
 
         Bucket bucket = bucketRepository.findBucketByUserIdAndProductId(userId, productId);
 
-        bucket.setAmount(bucket.getAmount()+1);
+        bucket.setAmount(bucket.getAmount() + 1);
         bucketRepository.save(bucket);
     }
 }

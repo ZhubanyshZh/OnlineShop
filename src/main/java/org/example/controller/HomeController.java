@@ -22,7 +22,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class HomeController {
 
-    private final UserService userService;
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final LoggedUserManagementService loggedUserManagementService;

@@ -38,7 +38,7 @@ public class SignUpController {
     }
     @PostMapping("/newSignUp")
     @ResponseBody
-    public SignUpDto loginUser(@RequestBody UserDto userDto, Model model){
+    public SignUpDto signUpUser(@RequestBody UserDto userDto, Model model){
         return authService.signUp(userDto);
     }
 }

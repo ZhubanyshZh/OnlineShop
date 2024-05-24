@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.example.dto.ChangePasswordDto;
 import org.example.dto.DTO;
@@ -9,8 +10,11 @@ import org.example.entity.User;
 import org.example.dto.UserDto;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -21,12 +25,16 @@ import java.util.regex.Pattern;
 
 @Service
 public class UserService extends MyService {
-
-    public UserService(ProductRepository productRepository, UserRepository userRepository, LoggedUserManagementService loggedUserManagementService) {
+    public UserService(ProductRepository productRepository,
+                       UserRepository userRepository,
+                       LoggedUserManagementService loggedUserManagementService) {
         super(productRepository, userRepository, loggedUserManagementService);
     }
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public boolean checkUser(String email, String password, Model model) {
+    public boolean checkUser(UserDto userDto) {
+        String email = userDto.getEmail();
+        String password = userDto.getPassword();
         List<User> users = userRepository.findAll();
 
         for (User u : users) {
@@ -37,17 +45,13 @@ public class UserService extends MyService {
                 loggedUserManagementService.setBirthday(u.getBirthday());
                 loggedUserManagementService.setAddress(u.getAddress());
                 loggedUserManagementService.setEmail(u.getEmail());
-                loggedUserManagementService.setPassword(u.getUserPassword());
+                loggedUserManagementService.setPassword(passwordEncoder.encode(u.getUserPassword()));
                 loggedUserManagementService.setRole(u.getRole());
                 loggedUserManagementService.setNewsNotification(u.getNewsNotification());
 
-
-                model.addAttribute("products", productRepository.findAll());
-                model.addAttribute("userName", loggedUserManagementService.getName());
                 return true;
             }
         }
-
         return false;
     }
     @Override
@@ -248,7 +252,7 @@ public class UserService extends MyService {
                 try{
                     User user = userRepository.findById(loggedUserManagementService.getId()).get();
 
-                    user.setUserPassword(changePasswordDto.getNewPassword());
+                    user.setUserPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
                     userRepository.save(user);
                 }catch (Exception e){
                     System.out.println(e.getMessage());
@@ -275,7 +279,7 @@ public class UserService extends MyService {
         user.setBirthday(userDto.getBirthday());
         user.setAddress(userDto.getAddress().trim());
         user.setEmail(userDto.getEmail().trim());
-        user.setUserPassword(userDto.getPassword().trim());
+        user.setUserPassword(passwordEncoder.encode(userDto.getPassword().trim()));
         user.setRole("user");
         user.setNewsNotification("false");
 

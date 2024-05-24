@@ -15,8 +15,8 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @PostMapping("/newsNotificationWithEmail")
-    public String notifyUsersAboutNews(NotificationDto notificationDto){
-        if(notificationService.notifyUsers(notificationDto)){
+    public String notifyUsersAboutNews(NotificationDto notificationDto) {
+        if (notificationService.notifyUsers(notificationDto)) {
             return "redirect:/Profile?notify=true";
         }
         return "redirect:/Profile?notify=false";

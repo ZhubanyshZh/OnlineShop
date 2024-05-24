@@ -23,22 +23,25 @@ public class MoreAboutClotheController {
 
     @GetMapping
     public String getMore(@RequestParam(name = "id", required = false) String id,
-                          Model model){
-        if(id!=null && !id.isEmpty()){
-            try{
+                          Model model) {
+        if (id != null && !id.isEmpty()) {
+            try {
                 Long userId = loggedUserManagementService.getId();
                 Long parseId = Long.parseLong(id);
+
                 productService.getCachedProductById(parseId, model);
+
                 model.addAttribute("isProductInTheBucket",
                         bucketService.haveTheProductThisUser(parseId, userId));
                 model.addAttribute("userName", loggedUserManagementService.getName());
                 model.addAttribute("isInFavorite", favoriteService.isTheProductFavorite(parseId, userId));
-            }catch (Exception e){
+
+                return "MoreClothe";
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return "redirect:/Clothes";
             }
-            return "MoreClothe";
-        }else{
+        } else {
             return "redirect:/Clothes";
         }
     }

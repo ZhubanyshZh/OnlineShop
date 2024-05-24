@@ -12,6 +12,7 @@ import org.example.entity.Product;
 import org.example.repository.CategoryRepository;
 import org.example.repository.ProductRepository;
 import org.example.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import redis.clients.jedis.Jedis;
@@ -29,7 +30,11 @@ public class ProductService extends MyService {
     private static final JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
     private ObjectMapper mapper = new ObjectMapper();
 
-    public ProductService(ProductRepository productRepository, UserRepository userRepository, LoggedUserManagementService loggedUserManagementService, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository,
+                          UserRepository userRepository,
+                          LoggedUserManagementService loggedUserManagementService,
+                          CategoryRepository categoryRepository
+    ) {
         super(productRepository, userRepository, loggedUserManagementService);
         this.categoryRepository = categoryRepository;
     }
@@ -223,35 +228,4 @@ public class ProductService extends MyService {
             throw new RuntimeException("Error fetching products" + e.getMessage());
         }
     }
-
-
-    //    private Product dtoToEntity(ProductDto productDto) {
-//        Product product = new Product();
-//
-//        setProductDtoToProduct(product, productDto);
-//
-//        return product;
-//    }
-
-//    public boolean deleteProduct(Long id) {
-//        try{
-//            productRepository.deleteById(id);
-//        }catch (Exception ex){
-//            System.out.println(ex.getMessage());
-//            return false;
-//        }
-//        return true;
-//    }
-    //    public boolean addProduct(ProductDto productDto){
-//        Product product = (Product) dtoToEntity(productDto);
-//
-//        try {
-//            productRepository.save(product);
-//        }catch (Exception ex){
-//            System.out.println(ex.getMessage());
-//            return false;
-//        }
-//
-//        return true;
-//    }
 }

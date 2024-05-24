@@ -28,35 +28,32 @@ public class ProfileController {
     private final CategoryRepository categoryRepository;
 
     @PostMapping("/addProduct")
-    public String addProduct(ProductDto productDto, Model model){
+    public String addProduct(ProductDto productDto, Model model) {
 
-        if(productService.save(productDto, productRepository, model)){
+        if (productService.save(productDto, productRepository, model)) {
             return "redirect:/Profile?successAdded=true";
-        }else{
+        } else {
             return "redirect:/Profile?successAdded=false";
         }
     }
 
 
-
-
-
     @PostMapping("/deleteProduct")
-    public String deleteProduct(ProductDto productDto){
+    public String deleteProduct(ProductDto productDto) {
 
-        if(productService.deleteById(productDto.getId(), productRepository)){
+        if (productService.deleteById(productDto.getId(), productRepository)) {
             return "redirect:/Profile?successDeleted=true";
-        }else{
+        } else {
             return "redirect:/Profile?successDeleted=false";
         }
     }
 
     @PostMapping("/changeProduct")
-    public String changeProduct(ProductDto productDto){
+    public String changeProduct(ProductDto productDto) {
 
-        if(productService.changeProduct(productDto)){
+        if (productService.changeProduct(productDto)) {
             return "redirect:/Profile?successChanged=true";
-        }else{
+        } else {
             return "redirect:/Profile?successChanged=false";
         }
     }
@@ -66,10 +63,10 @@ public class ProfileController {
                              @RequestParam(name = "successAdded", required = false) String successAdded,
                              @RequestParam(name = "successDeleted", required = false) String successDeleted,
                              @RequestParam(name = "successChanged", required = false) String successChanged,
-                             @RequestParam(name = "passwordChanged" ,required = false) String passwordChanged,
+                             @RequestParam(name = "passwordChanged", required = false) String passwordChanged,
                              @RequestParam(name = "notify", required = false) String notify
-    ){
-        if(loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("admin")){
+    ) {
+        if (loggedUserManagementService.getRole() != null && loggedUserManagementService.getRole().equals("admin")) {
             model.addAttribute("role", loggedUserManagementService.getRole());
             model.addAttribute("users", userRepository.findAll());
             model.addAttribute("products", productRepository.findAllWithCategoryName());
@@ -78,11 +75,11 @@ public class ProfileController {
             model.addAttribute("categories", productService.findCategories());
             model.addAttribute("allCategories", categoryRepository.findAllCategory());
 
-            if(successAdded != null && successAdded.equals("true")){
+            if (successAdded != null && successAdded.equals("true")) {
                 model.addAttribute("added", true);
-            }else if(successAdded != null && successAdded.equals("false")){
+            } else if (successAdded != null && successAdded.equals("false")) {
                 model.addAttribute("notAdded", true);
-            }else if(successDeleted != null && successDeleted.equals("true")){
+            } else if (successDeleted != null && successDeleted.equals("true")) {
                 model.addAttribute("deleted", true);
             } else if (successDeleted != null && successDeleted.equals("false")) {
                 model.addAttribute("notDeleted", true);
@@ -97,7 +94,7 @@ public class ProfileController {
             }
 
             return "AdminProfile";
-        } else if (loggedUserManagementService.getRole()!=null && loggedUserManagementService.getRole().equals("user")){
+        } else if (loggedUserManagementService.getRole() != null && loggedUserManagementService.getRole().equals("user")) {
             model.addAttribute("userName", loggedUserManagementService.getName());
             model.addAttribute("address", loggedUserManagementService.getAddress());
             model.addAttribute("email", loggedUserManagementService.getEmail());
@@ -107,11 +104,11 @@ public class ProfileController {
             model.addAttribute("id", loggedUserManagementService.getId());
             model.addAttribute("newsNotify", loggedUserManagementService.getNewsNotification());
 
-            if(passwordChanged!=null && passwordChanged.equals("true")){
+            if (passwordChanged != null && passwordChanged.equals("true")) {
                 model.addAttribute("passwordChanged", true);
-            }else if (passwordChanged!=null && passwordChanged.equals("false")){
+            } else if (passwordChanged != null && passwordChanged.equals("false")) {
                 model.addAttribute("NotChanged", true);
-                model.addAttribute("passwordNotChanged" ,loggedUserManagementService.getMessageToUser());
+                model.addAttribute("passwordNotChanged", loggedUserManagementService.getMessageToUser());
             }
 
             return "userProfile";
@@ -122,29 +119,29 @@ public class ProfileController {
     }
 
     @PostMapping("/changeUser")
-    public String changeUser(UserDto userDto){
+    public String changeUser(UserDto userDto) {
 
-        if(userService.changeUser(userDto)){
+        if (userService.changeUser(userDto)) {
             return "redirect:/Profile?successChanged=true";
-        }else {
+        } else {
             return "redirect:/Profile?successChanged=false";
         }
     }
 
     @PostMapping("/deleteUser")
-    public String deleteUser(UserDto userDto){
+    public String deleteUser(UserDto userDto) {
 
-        if(userService.deleteById(userDto.getId(), userRepository)){
+        if (userService.deleteById(userDto.getId(), userRepository)) {
             return "redirect:/Profile?successDeleted=true";
-        }else{
+        } else {
             return "redirect:/Profile?successDeleted=false";
         }
     }
 
     @PostMapping("/changePassword")
-    public String changePassword(ChangePasswordDto changePasswordDto, Model model){
+    public String changePassword(ChangePasswordDto changePasswordDto, Model model) {
 
-        if(userService.changePassword(changePasswordDto, model)){
+        if (userService.changePassword(changePasswordDto, model)) {
             return "redirect:/Profile?passwordChanged=true";
         }
         return "redirect:/Profile?passwordChanged=false";
@@ -152,8 +149,8 @@ public class ProfileController {
 
 
     @PostMapping("/changeNotify")
-    public String changeNotify(UserDto userDto){
-        if(userService.changeNotify(userDto)){
+    public String changeNotify(UserDto userDto) {
+        if (userService.changeNotify(userDto)) {
             return "redirect:/Profile?notifyChanged=true";
         }
         return "redirect:/Profile?notifyChanged=false";

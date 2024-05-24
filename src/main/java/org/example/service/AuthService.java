@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.example.dto.*;
@@ -22,7 +23,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final LoggedUserManagementService loggedUserManagementService;
 
     public SignUpDto signUp(UserDto userDto) {
         SignUpDto signUpDto = new SignUpDto();
@@ -143,5 +143,9 @@ public class AuthService {
         ) {
             return true;
         } else return false;
+    }
+
+    public String encodingPassword(String password){
+        return passwordEncoder.encode(password);
     }
 }
